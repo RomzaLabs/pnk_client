@@ -1,7 +1,8 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
-import { Router } from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import Header from "./Header";
+import MissionList from "./missions/MissionList";
 
 const App = () => {
   return (
@@ -9,6 +10,9 @@ const App = () => {
       <Router history={createBrowserHistory()}>
         <div>
           <Header/>
+          <Switch>
+            <Route path="/" exact component={MissionList} />
+          </Switch>
         </div>
       </Router>
     </div>
