@@ -1,12 +1,13 @@
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import {Route, Router, Switch} from "react-router-dom";
+import { Container } from 'semantic-ui-react'
 import Header from "./Header";
 import MissionList from "./missions/MissionList";
 
 const App = () => {
   return (
-    <div className="ui container">
+    <Container fluid>
       <Router history={createBrowserHistory()}>
         <div>
           <Header/>
@@ -15,7 +16,7 @@ const App = () => {
           </Switch>
         </div>
       </Router>
-    </div>
+    </Container>
   );
 };
 
