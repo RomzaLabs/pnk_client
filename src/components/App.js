@@ -10,7 +10,7 @@ import Test2 from "./missions/Test2";
 
 const App = () => {
   return (
-    <Container>
+    <Container fluid>
       <Router history={createBrowserHistory()}>
         <div>
           <Header/>
