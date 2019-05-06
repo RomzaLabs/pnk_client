@@ -1,1 +1,12 @@
 /* App CSS goes here. */
+
+@font-face {
+  font-family: Furore;
+  src: url("../fonts/Furore.otf") format("opentype");
+}
+body {
+  font-family: 'Furore', 'sans-serif';
+}
+.ui.menu {
+  font-family: 'Furore', 'sans-serif';
+}
