@@ -7,6 +7,8 @@
 body {
   font-family: 'Furore', 'sans-serif';
   background-color: #181818;
+  background-image: url("../images/Yela.jpg");
+  background-size: cover;
 }
 .ui.menu {
   font-family: 'Furore', 'sans-serif';
