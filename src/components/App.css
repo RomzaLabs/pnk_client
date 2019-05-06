@@ -9,6 +9,7 @@ body {
   background-color: #181818;
   background-image: url("../images/Yela.jpg");
   background-size: cover;
+  color: white;
 }
 .ui.menu {
   font-family: 'Furore', 'sans-serif';

@@ -1,9 +1,15 @@
+import './MissionList.css';
 import React, {Component} from 'react';
+import {Container} from "semantic-ui-react";
 
 class MissionList extends Component {
 
   render() {
-    return <div>Mission List</div>;
+    return (
+      <Container className="content">
+        <div>Mission List</div>
+      </Container>
+    );
   }
 
 }
