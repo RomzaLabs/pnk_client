@@ -10,3 +10,13 @@ body {
 .ui.menu {
   font-family: 'Furore', 'sans-serif';
 }
+
+.ui a {
+  color: #C3C6C9;
+}
+.ui .active a {
+  color: white;
+}
+.ui a:hover {
+  color: white !important;
+}
