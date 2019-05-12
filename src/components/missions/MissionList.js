@@ -5,7 +5,7 @@ import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
 import Countdown from 'react-countdown-now';
-import {dummyMissions} from "./dummyMissions";
+import InfiniteScroll from 'react-infinite-scroller';
 import {
   ACTIVE_MISSION,
   COMMUNITY_CATEGORY,
@@ -20,7 +20,7 @@ const MissionList = observer(class MissionList extends Component {
   constructor(props) {
     super(props);
     this.missionsStore = new MissionsStore();
-    this.missionsStore.setMissions(dummyMissions.slice(0, 10)); // Fake getting the first 10.
+    this.missionsStore.getMissions(); // Loads the first 10 missions.
   }
 
   renderLoader() {
@@ -96,7 +96,6 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   getCategoryDefaultURL(category) {
-    console.log('category', category);
     switch (category) {
       case COMMUNITY_CATEGORY: return "/images/missions/community_category.png";
       case EXPLORATION_CATEGORY: return "/images/missions/exploration_category.png";
@@ -117,13 +116,25 @@ const MissionList = observer(class MissionList extends Component {
     return mission.rsvpUsers.length;
   }
 
+  loadMore() {
+    if (this.missionsStore && this.missionsStore.loading === false) {
+      this.missionsStore.getMissions();
+    }
+  }
+
   render() {
     const cards = this.renderMissionCards();
     return (
       <Container className="content">
-        <Card.Group stackable itemsPerRow={3}>
-          {cards}
-        </Card.Group>
+        <InfiniteScroll
+          initialLoad={false}
+          loadMore={() => this.loadMore()}
+          hasMore={this.missionsStore.hasMore}
+        >
+          <Card.Group stackable itemsPerRow={3}>
+            {cards}
+          </Card.Group>
+        </InfiniteScroll>
       </Container>
     );
   }
