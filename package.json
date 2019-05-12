@@ -11,6 +11,7 @@
     "mobx-react": "^5.4.3",
     "moment-timezone": "^0.5.25",
     "react": "^16.8.6",
+    "react-countdown-now": "^2.1.0",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
