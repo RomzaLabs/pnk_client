@@ -17,14 +17,6 @@ const Header = () => {
         <Menu.Item name='missions' active>
           <Link to="/">Missions</Link>
         </Menu.Item>
-
-        <Menu.Item name='test1'>
-          <Link to="test1">Test 1</Link>
-        </Menu.Item>
-
-        <Menu.Item name='test2'>
-          <Link to="/test2">Test 2</Link>
-        </Menu.Item>
       </Menu>
     </Container>
   );
