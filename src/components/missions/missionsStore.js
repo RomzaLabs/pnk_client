@@ -12,7 +12,7 @@ class MissionsStore {
 
   setMissions(missions) {
     // Faking API request.
-    setTimeout(() => this.setDelayedMission(missions), 2000);
+    setTimeout(() => this.setDelayedMission(missions), 1000);
   }
 
   /* Computed Properties. */

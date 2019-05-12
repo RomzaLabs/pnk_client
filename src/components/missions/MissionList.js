@@ -4,6 +4,7 @@ import { Container, Card, Dimmer, Image, Icon, Loader } from 'semantic-ui-react'
 import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
+import Countdown from 'react-countdown-now';
 import {dummyMissions} from "./dummyMissions";
 import {
   ACTIVE_MISSION,
@@ -37,9 +38,12 @@ const MissionList = observer(class MissionList extends Component {
     return missions.map(mission => {
       const colorStatus = this.getColorStatus(mission.status);
       const imageURL = this.getImageURL(mission);
+
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
-      const date = moment.tz(mission.date, timezone); // UTC
-      const dateStr = date.format('DD.MMM.YYYY LT'); // TODO: Use date or countdown.
+      const date = moment.tz(mission.date, timezone);
+      const dateStr = date.format('DD.MMM.YYYY LT z');
+      const countdown = this.getCountdownIfClose(date);
+
       const userCount = mission.rsvpUsers.length; // TODO: If event already happened, used attended count.
 
       return (
@@ -55,11 +59,23 @@ const MissionList = observer(class MissionList extends Component {
             <div>
               <Icon name='user' />
               {userCount}
+              {countdown}
             </div>
           </Card.Content>
         </Card>
       );
     });
+  }
+
+  getCountdownIfClose(date) {
+    const today = moment();
+    const sevenDaysInFuture = moment().add(1, 'week');
+    if (date.isBefore(today) || date.isAfter(sevenDaysInFuture)) return undefined;
+    return (
+      <span className='right floated'>
+        <Countdown date={date.valueOf()} />
+      </span>
+    );
   }
 
   getColorStatus(status) {
@@ -95,7 +111,7 @@ const MissionList = observer(class MissionList extends Component {
     const cards = this.renderMissionCards();
     return (
       <Container className="content">
-        <Card.Group itemsPerRow={4}>
+        <Card.Group itemsPerRow={3}>
           {cards}
         </Card.Group>
       </Container>
