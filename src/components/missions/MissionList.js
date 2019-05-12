@@ -5,6 +5,7 @@ import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
 import {dummyMissions} from "./dummyMissions";
+import {ACTIVE_MISSION, FAILED_MISSION, SUCCESSFUL_MISSION} from "./types";
 
 const MissionList = observer(class MissionList extends Component {
 
@@ -27,7 +28,7 @@ const MissionList = observer(class MissionList extends Component {
     if (!missions || !missions.length) return this.renderLoader();
 
     return missions.map(mission => {
-      const colorStatus = 'yellow'; // TODO: Determine color.
+      const colorStatus = this.getColorStatus(mission.status);
       const imageURL = mission.feature_image; // TODO: Category or feature_image
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const date = moment.tz(mission.date, timezone); // UTC
@@ -52,6 +53,15 @@ const MissionList = observer(class MissionList extends Component {
         </Card>
       );
     });
+  }
+
+  getColorStatus(status) {
+    switch(status) {
+      case ACTIVE_MISSION: return "yellow";
+      case SUCCESSFUL_MISSION: return "green";
+      case FAILED_MISSION: return "red";
+      default: return "red";
+    }
   }
 
   render() {
