@@ -5,7 +5,14 @@ import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
 import {dummyMissions} from "./dummyMissions";
-import {ACTIVE_MISSION, FAILED_MISSION, SUCCESSFUL_MISSION} from "./types";
+import {
+  ACTIVE_MISSION,
+  COMMUNITY_CATEGORY,
+  EXPLORATION_CATEGORY,
+  FAILED_MISSION,
+  MINING_CATEGORY, MISSION_CATEGORY, OTHER_CATEGORY,
+  SUCCESSFUL_MISSION
+} from "./types";
 
 const MissionList = observer(class MissionList extends Component {
 
@@ -29,7 +36,7 @@ const MissionList = observer(class MissionList extends Component {
 
     return missions.map(mission => {
       const colorStatus = this.getColorStatus(mission.status);
-      const imageURL = mission.feature_image; // TODO: Category or feature_image
+      const imageURL = this.getImageURL(mission);
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const date = moment.tz(mission.date, timezone); // UTC
       const dateStr = date.format('DD.MMM.YYYY LT'); // TODO: Use date or countdown.
@@ -61,6 +68,26 @@ const MissionList = observer(class MissionList extends Component {
       case SUCCESSFUL_MISSION: return "green";
       case FAILED_MISSION: return "red";
       default: return "red";
+    }
+  }
+
+  getImageURL(mission) {
+    if (mission.feature_image) {
+      return mission.feature_image;
+    } else {
+      return this.getCategoryDefaultURL(mission.category);
+    }
+  }
+
+  getCategoryDefaultURL(category) {
+    console.log('category', category);
+    switch (category) {
+      case COMMUNITY_CATEGORY: return "/images/missions/community_category.png";
+      case EXPLORATION_CATEGORY: return "/images/missions/exploration_category.png";
+      case MINING_CATEGORY: return "/images/missions/mining_category.png";
+      case MISSION_CATEGORY: return "/images/missions/mission_category.png";
+      case OTHER_CATEGORY: return "/images/missions/other_category.png";
+      default: return "/images/missions/other_category.png";
     }
   }
 
