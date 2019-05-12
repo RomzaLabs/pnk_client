@@ -31,9 +31,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen", "Zaden Pax"],
-    attended: ["Coff", "Zaden Pax"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }, { id: 5, username: "Zaden Pax" }],
+    attended: [{ id: 3, username: "Coff" }, { id: 5, username: "Zaden Pax" }]
   },
   {
     id: "2",
@@ -48,9 +48,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "3",
@@ -65,9 +65,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "4",
@@ -82,9 +82,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "5",
@@ -99,9 +99,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "6",
@@ -116,9 +116,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "7",
@@ -133,9 +133,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "8",
@@ -150,9 +150,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "9",
@@ -167,9 +167,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "10",
@@ -184,9 +184,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "11",
@@ -201,9 +201,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "12",
@@ -218,9 +218,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "13",
@@ -235,9 +235,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "14",
@@ -252,9 +252,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   },
   {
     id: "15",
@@ -269,9 +269,9 @@ const dummyMissions = [
     status: "Active",
     briefing: "",
     debriefing: "",
-    commander: "Rommel", // UserID
-    rsvpUsers: ["Axor", "Coff", "Tar Garyen"],
-    attended: ["Coff"]
+    commander: { id: 1, username: "Rommel" },
+    rsvpUsers: [{ id: 2, username: "Axor" }, { id: 3, username: "Coff" }, { id: 4, username: "Tar Garyen" }],
+    attended: [{ id: 3, username: "Coff" }]
   }
 ];
 
