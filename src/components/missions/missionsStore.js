@@ -1,4 +1,4 @@
-import {action, computed, decorate, observable, toJS} from "mobx";
+import {action, decorate, observable} from "mobx";
 import {dummyMissions} from "./dummyMissions";
 
 const MISSIONS_PER_PAGE = 10;
@@ -27,13 +27,6 @@ class MissionsStore {
 
   /* Computed Properties. */
 
-  get sortedMissions() {
-    const missions = toJS(this.missions);
-    return missions.sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
-    });
-  }
-
   /* Helpers. */
 
   // Mocking an API request for now.
@@ -55,8 +48,7 @@ decorate(MissionsStore, {
   currentPage: observable,
   hasMore: observable,
   loading: observable,
-  sortedMissions: computed,
   getMissions: action
 });
 
-export default MissionsStore; // const missionsStore = new MissionsStore();
+export default MissionsStore;

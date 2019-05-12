@@ -32,7 +32,7 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderMissionCards() {
-    const missions = this.missionsStore.sortedMissions;
+    const missions = this.missionsStore.missions;
     if (!missions || !missions.length) return this.renderLoader();
 
     return missions.map(mission => {
