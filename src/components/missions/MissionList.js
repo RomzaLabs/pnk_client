@@ -1,13 +1,24 @@
 import './MissionList.css';
 import React, {Component} from 'react';
 import { Container, Card, Image, Icon } from 'semantic-ui-react';
-import { missionsStore } from './missionsStore';
+import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
+import {observer} from 'mobx-react';
+import {dummyMissions} from "./dummyMissions";
 
-class MissionList extends Component {
+const MissionList = observer(class MissionList extends Component {
+
+  constructor(props) {
+    super(props);
+    this.missionsStore = new MissionsStore();
+    this.missionsStore.setMissions(dummyMissions);
+  }
 
   renderMissionCards() {
-    return missionsStore.missions.map(mission => {
+    const missions = this.missionsStore.missions;
+    if (!missions) return undefined;
+
+    return missions.map(mission => {
       const colorStatus = 'yellow'; // TODO: Determine color.
       const imageURL = mission.feature_image; // TODO: Category or feature_image
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
@@ -46,6 +57,6 @@ class MissionList extends Component {
     );
   }
 
-}
+});
 
 export default MissionList;
