@@ -1,6 +1,6 @@
 import './MissionList.css';
 import React, {Component} from 'react';
-import { Container, Card, Image, Icon } from 'semantic-ui-react';
+import { Container, Card, Dimmer, Image, Icon, Loader } from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
@@ -14,9 +14,17 @@ const MissionList = observer(class MissionList extends Component {
     this.missionsStore.setMissions(dummyMissions.slice(0, 10)); // Fake getting the first 10.
   }
 
+  renderLoader() {
+    return (
+      <Dimmer active>
+        <Loader size='massive'>Loading Missions</Loader>
+      </Dimmer>
+    );
+  }
+
   renderMissionCards() {
     const missions = this.missionsStore.sortedMissions;
-    if (!missions) return undefined;
+    if (!missions || !missions.length) return this.renderLoader();
 
     return missions.map(mission => {
       const colorStatus = 'yellow'; // TODO: Determine color.
