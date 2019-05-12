@@ -12,7 +12,7 @@ class MissionList extends Component {
       const imageURL = mission.feature_image; // TODO: Category or feature_image
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const date = moment.tz(mission.date, timezone); // UTC
-      const dateStr = date.format('DD.MM.YYYY LT'); // TODO: Use date or countdown.
+      const dateStr = date.format('DD.MMM.YYYY LT'); // TODO: Use date or countdown.
       const userCount = mission.rsvpUsers.length; // TODO: If event already happened, used attended count.
 
       return (
