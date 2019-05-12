@@ -121,7 +121,7 @@ const MissionList = observer(class MissionList extends Component {
     const cards = this.renderMissionCards();
     return (
       <Container className="content">
-        <Card.Group itemsPerRow={3}>
+        <Card.Group stackable itemsPerRow={3}>
           {cards}
         </Card.Group>
       </Container>
