@@ -11,11 +11,11 @@ const MissionList = observer(class MissionList extends Component {
   constructor(props) {
     super(props);
     this.missionsStore = new MissionsStore();
-    this.missionsStore.setMissions(dummyMissions);
+    this.missionsStore.setMissions(dummyMissions.slice(0, 10)); // Fake getting the first 10.
   }
 
   renderMissionCards() {
-    const missions = this.missionsStore.missions;
+    const missions = this.missionsStore.sortedMissions;
     if (!missions) return undefined;
 
     return missions.map(mission => {

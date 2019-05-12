@@ -1,4 +1,4 @@
-import { action, decorate, observable } from "mobx";
+import { action, computed, decorate, observable } from "mobx";
 
 class MissionsStore {
 
@@ -17,8 +17,16 @@ class MissionsStore {
 
   /* Computed Properties. */
 
+  get sortedMissions() {
+    const missions = this.missions;
+    return missions.sort((a, b) => {
+      return new Date(b.date) - new Date(a.date);
+    });
+  }
+
   /* Helpers. */
 
+  // Mocking an API request for now.
   setDelayedMission = (missions) => {
     this.missions = missions;
   }
@@ -27,6 +35,7 @@ class MissionsStore {
 
 decorate(MissionsStore, {
   missions: observable,
+  sortedMissions: computed,
   setMissions: action
 });
 
