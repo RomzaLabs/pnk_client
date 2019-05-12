@@ -42,7 +42,7 @@ const MissionList = observer(class MissionList extends Component {
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const date = moment.tz(mission.date, timezone);
       const dateStr = date.format('DD.MMM.YYYY LT z');
-      const countdown = this.getCountdownIfClose(date);
+      const countdown = this.getCountdown(date);
 
       const userCount = this.getUserCount(mission);
 
@@ -67,10 +67,9 @@ const MissionList = observer(class MissionList extends Component {
     });
   }
 
-  getCountdownIfClose(date) {
+  getCountdown(date) {
     const today = moment();
-    const sevenDaysInFuture = moment().add(1, 'week');
-    if (date.isBefore(today) || date.isAfter(sevenDaysInFuture)) return undefined;
+    if (date.isBefore(today)) return undefined;
     return (
       <span className='right floated'>
         <Countdown date={date.valueOf()} />
