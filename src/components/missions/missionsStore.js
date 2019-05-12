@@ -1,21 +1,21 @@
-import {observable} from "mobx";
+import { decorate, observable } from "mobx";
 
-const categories = [
-  "Bounty Hunting",
-  "Engineering",
-  "Exploration",
-  "Freelancing",
-  "Infiltration",
-  "Piracy",
-  "Resources",
-  "Scouting",
-  "Security",
-  "Smuggling",
-  "Social",
-  "Trading",
-  "Transport",
-  "Other"
-  ];
+// const categories = [
+//   "Bounty Hunting",
+//   "Engineering",
+//   "Exploration",
+//   "Freelancing",
+//   "Infiltration",
+//   "Piracy",
+//   "Resources",
+//   "Scouting",
+//   "Security",
+//   "Smuggling",
+//   "Social",
+//   "Trading",
+//   "Transport",
+//   "Other"
+//   ];
 
 const dummyMissions = [
   {
@@ -279,7 +279,7 @@ class MissionsStore {
 
   /* Observable Properties. */
 
-  @observable missions = [];
+  missions = [];
 
   /* Constructor. */
 
@@ -295,4 +295,8 @@ class MissionsStore {
 
 }
 
-const missionsStore = new MissionsStore();
+decorate(MissionsStore, {
+  missions: observable
+});
+
+export const missionsStore = new MissionsStore();
