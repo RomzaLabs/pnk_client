@@ -44,7 +44,7 @@ const MissionList = observer(class MissionList extends Component {
       const dateStr = date.format('DD.MMM.YYYY LT z');
       const countdown = this.getCountdownIfClose(date);
 
-      const userCount = mission.rsvpUsers.length; // TODO: If event already happened, used attended count.
+      const userCount = this.getUserCount(mission);
 
       return (
         <Card key={mission.id} raised color={colorStatus}>
@@ -105,6 +105,16 @@ const MissionList = observer(class MissionList extends Component {
       case OTHER_CATEGORY: return "/images/missions/other_category.png";
       default: return "/images/missions/other_category.png";
     }
+  }
+
+  getUserCount(mission) {
+    const today = moment();
+    const missionDate = moment(mission.date);
+
+    if (missionDate.isBefore(today)) {
+      return mission.attended.length;
+    }
+    return mission.rsvpUsers.length;
   }
 
   render() {
