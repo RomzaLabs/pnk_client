@@ -7,3 +7,36 @@
   font-family: 'Furore', 'sans-serif';
   font-size: 1.2rem;
 }
+
+.ui.cards > .yellow.card, .ui.yellow.card, .ui.yellow.cards > .card {
+  border-top: 2px solid #FBBD08;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .yellow.card:hover, .ui.yellow.card:hover, .ui.yellow.cards > .card:hover {
+  border-top: 2px solid #FBBD08;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui.cards > .green.card, .ui.green.card, .ui.green.cards > .card {
+  border-top: 2px solid #21BA45;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .green.card:hover, .ui.green.card:hover, .ui.green.cards > .card:hover {
+  border-top: 2px solid #21BA45;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui.cards > .red.card, .ui.red.card, .ui.red.cards > .card {
+  border-top: 2px solid #DB2828;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .red.card:hover, .ui.red.card:hover, .ui.red.cards > .card:hover {
+  border-top: 2px solid #DB2828;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
