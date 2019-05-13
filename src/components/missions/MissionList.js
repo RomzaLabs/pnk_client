@@ -91,7 +91,7 @@ const MissionList = observer(class MissionList extends Component {
       <Modal centered={false} size='large' open={open} onClose={() => this.clearSelectedMission()}>
         <Modal.Content image scrolling>
           <Image size='medium' src={this.getImageURL(mission)} wrapped />
-          <Modal.Description style={{color: 'black'}}>
+          <Modal.Description>
             {missionHeader}
             {missionDescription}
             {missionBriefing}
@@ -197,28 +197,29 @@ const MissionList = observer(class MissionList extends Component {
     const attendedUsers = this.renderUser(mission.attended);
     return (
       <Fragment>
-        <Header size="large">Mission Participants</Header>
-        <Segment>
-          <Grid columns={2} relaxed='very'>
-            <Grid.Column>
-              <Header>RSVPs</Header>
-              {rsvpUsers}
-            </Grid.Column>
-            <Grid.Column>
-              <Header>Attendees</Header>
-              {attendedUsers}
-            </Grid.Column>
-          </Grid>
-          <Divider vertical>And</Divider>
-        </Segment>
+        <Header size="large">Mission RSVPs</Header>
+        <List horizontal ordered verticalAlign='middle'>
+          {rsvpUsers}
+        </List>
+
+        <Header size="large">Mission Attendees</Header>
+        <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
+          {attendedUsers}
+        </List>
       </Fragment>
     );
   }
 
   renderUser(users) {
     return users.map(user => {
-      const username = user.username;
-      return <p key={user.id}>{username}</p>;
+      return (
+        <List.Item key={user.id}>
+          <Image avatar src='/images/avatar/generic.png' />
+          <List.Content>
+            <List.Header>{user.username}</List.Header>
+          </List.Content>
+        </List.Item>
+      );
     });
   }
 
