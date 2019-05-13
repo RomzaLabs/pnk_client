@@ -107,8 +107,6 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderMissionHeader(mission) {
-    // TODO: Fix Mission Header CSS
-    // TODO: Proper formatting for mission date.
     // TODO: Conditional rendering of Discord link.
     // TODO: Conditional rendering of Video link.
     const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
@@ -138,7 +136,16 @@ const MissionList = observer(class MissionList extends Component {
             </Table.Row>
             <Table.Row>
               <Table.Cell>Commander</Table.Cell>
-              <Table.Cell>{mission.commander.username}</Table.Cell>
+              <Table.Cell>
+                <List animated verticalAlign='middle'>
+                  <List.Item>
+                    <Image avatar src='/images/avatar/generic.png' />
+                    <List.Content>
+                      <List.Header>{mission.commander.username}</List.Header>
+                    </List.Content>
+                  </List.Item>
+                </List>
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Media</Table.Cell>

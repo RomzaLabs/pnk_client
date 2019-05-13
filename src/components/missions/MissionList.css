@@ -8,6 +8,11 @@
   font-size: 1.2rem;
 }
 
+.ui.list .list > .item .header, .ui.list > .item .header {
+  font-family: 'Furore', 'sans-serif';
+  font-weight: normal;
+}
+
 .ui.list .list > .item > .content, .ui.list > .item > .content {
   background-color: transparent;
 }
