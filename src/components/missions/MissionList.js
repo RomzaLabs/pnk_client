@@ -159,7 +159,7 @@ const MissionList = observer(class MissionList extends Component {
   renderMissionDescription(mission) {
     return (
       <Fragment>
-        <Header>Mission Description</Header>
+        <Header size="large">Mission Description</Header>
         <p>{mission.description}</p>
       </Fragment>
     );
@@ -169,7 +169,7 @@ const MissionList = observer(class MissionList extends Component {
     if (!mission.briefing) return undefined;
     return (
       <Fragment>
-        <Header>Mission Briefing</Header>
+        <Header size="large">Mission Briefing</Header>
         <p>{mission.briefing}</p>
       </Fragment>
     );
@@ -179,7 +179,7 @@ const MissionList = observer(class MissionList extends Component {
     if (!mission.debriefing) return undefined;
     return (
       <Fragment>
-        <Header>Mission Debriefing</Header>
+        <Header size="large">Mission Debriefing</Header>
         <p>{mission.debriefing}</p>
       </Fragment>
     );
@@ -190,7 +190,7 @@ const MissionList = observer(class MissionList extends Component {
     const attendedUsers = this.renderUser(mission.attended);
     return (
       <Fragment>
-        <Header>Mission Participants</Header>
+        <Header size="large">Mission Participants</Header>
         <Segment>
           <Grid columns={2} relaxed='very'>
             <Grid.Column>
