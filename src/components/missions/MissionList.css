@@ -8,6 +8,18 @@
   font-size: 1.2rem;
 }
 
+.ui.list .list > .item > .content, .ui.list > .item > .content {
+  background-color: transparent;
+}
+
+.ui.list .list > .item a, .ui.list > .item a {
+  color: black;
+}
+
+.ui.list .list > .item a:hover, .ui.list > .item a:hover {
+  color: black !important;
+}
+
 .ui.cards > .yellow.card, .ui.yellow.card, .ui.yellow.cards > .card {
   border-top: 2px solid #FBBD08;
   -webkit-box-shadow: none;
