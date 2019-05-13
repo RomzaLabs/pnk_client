@@ -8,6 +8,7 @@ class MissionsStore {
   /* Observable Properties. */
 
   missions = [];
+  selectedMission = null;
   currentPage = 0;
   hasMore = true;
   loading = false;
@@ -23,6 +24,14 @@ class MissionsStore {
     const missionsToAdd = dummyMissions.slice(startIndex, endIndex);
     this.loading = true;
     setTimeout(() => this.setDelayedMission(missionsToAdd), 1000);
+  }
+
+  setSelectedMission(mission) {
+    this.selectedMission = mission
+  }
+
+  clearSelectedMission() {
+    this.selectedMission = null;
   }
 
   /* Computed Properties. */
@@ -45,6 +54,8 @@ class MissionsStore {
 
 decorate(MissionsStore, {
   missions: observable,
+  selectedMission: observable,
+  clearSelectedMission: observable,
   currentPage: observable,
   hasMore: observable,
   loading: observable,

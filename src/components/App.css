@@ -25,3 +25,7 @@ body {
   color: white !important;
 }
 
+.ui.card > .content > .header, .ui.cards > .card > .content > .header {
+  font-family: 'Furore', 'sans-serif';
+  font-size: 1.2rem;
+}

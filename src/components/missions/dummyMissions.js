@@ -10,8 +10,8 @@ export const dummyMissions = [
     "feature_image": "",
     "date": "2019-07-04T23:00:00Z",
     "status": "Active",
-    "briefing": "",
-    "debriefing": "",
+    "briefing": "This is a briefing.",
+    "debriefing": "This is debrief.",
     "commander": {
       "id": 1,
       "username": "Rommel"
