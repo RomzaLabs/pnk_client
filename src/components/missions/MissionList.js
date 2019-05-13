@@ -1,6 +1,6 @@
 import './MissionList.css';
 import React, {Component, Fragment} from 'react';
-import { Button, Container, Card, Dimmer, Divider, Grid, Header, Image, Icon, List, Loader, Modal, Segment } from 'semantic-ui-react';
+import { Button, Container, Card, Dimmer, Divider, Grid, Header, Image, Icon, List, Loader, Modal, Segment, Table } from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
@@ -111,18 +111,47 @@ const MissionList = observer(class MissionList extends Component {
     // TODO: Proper formatting for mission date.
     // TODO: Conditional rendering of Discord link.
     // TODO: Conditional rendering of Video link.
+    const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+    const date = moment.tz(mission.date, timezone);
+    const dateStr = date.format('DD.MMM.YYYY LT z');
+
     return (
       <Fragment>
         <Header size='huge'>{mission.name}</Header>
-        <List>
-          <List.Item icon='tag' content={mission.category} />
-          <List.Item icon='marker' content={mission.location} />
-          <List.Item icon='calendar' content={mission.date} />
-          <List.Item icon='clipboard check' content={mission.status} />
-          <List.Item icon='user' content={mission.commander.username} />
-          <List.Item icon='discord' content={<a href={mission.discordURL}>Mission Discord</a>} />
-          <List.Item icon='twitch' content={<a href={mission.videoURL}>Mission Stream</a>} />
-        </List>
+        <Table definition>
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>Date</Table.Cell>
+              <Table.Cell>{dateStr}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Status</Table.Cell>
+              <Table.Cell>{mission.status}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell width={2}>Category</Table.Cell>
+              <Table.Cell>{mission.category}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Location</Table.Cell>
+              <Table.Cell>{mission.location}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Commander</Table.Cell>
+              <Table.Cell>{mission.commander.username}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Media</Table.Cell>
+              <Table.Cell>
+                <List>
+                  <List.Item key="discord" icon='discord' content={<a href={mission.discordURL}>Mission Discord</a>} />
+                  <List.Item key="twitch" icon='twitch' content={<a href={mission.videoURL}>Mission Twitch</a>} />
+                </List>
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+
       </Fragment>
     );
   }
@@ -182,7 +211,7 @@ const MissionList = observer(class MissionList extends Component {
   renderUser(users) {
     return users.map(user => {
       const username = user.username;
-      return <p>{username}</p>;
+      return <p key={user.id}>{username}</p>;
     });
   }
 
