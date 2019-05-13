@@ -107,11 +107,10 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderMissionHeader(mission) {
-    // TODO: Conditional rendering of Discord link.
-    // TODO: Conditional rendering of Video link.
     const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
     const date = moment.tz(mission.date, timezone);
     const dateStr = date.format('DD.MMM.YYYY LT z');
+    const mediaItems = this.renderMediaItems(mission);
 
     return (
       <Fragment>
@@ -151,8 +150,7 @@ const MissionList = observer(class MissionList extends Component {
               <Table.Cell>Media</Table.Cell>
               <Table.Cell>
                 <List>
-                  <List.Item key="discord" icon='discord' content={<a href={mission.discordURL}>Mission Discord</a>} />
-                  <List.Item key="twitch" icon='twitch' content={<a href={mission.videoURL}>Mission Twitch</a>} />
+                  {mediaItems}
                 </List>
               </Table.Cell>
             </Table.Row>
@@ -221,6 +219,39 @@ const MissionList = observer(class MissionList extends Component {
         </List.Item>
       );
     });
+  }
+
+  renderMediaItems(mission) {
+    const discordURL = mission.discordURL;
+    const videoURL = mission.videoURL;
+
+    const discordLink =
+      <List.Item
+        key="discord"
+        icon='discord'
+        content={<a href={mission.discordURL} target='_blank' rel="noopener noreferrer">Mission Discord</a>}
+      />;
+    const twitchLink =
+      <List.Item
+        key="twitch"
+        icon='twitch'
+        content={<a href={mission.videoURL} target='_blank' rel="noopener noreferrer">Mission Twitch</a>}
+      />;
+
+    if (discordURL && videoURL) {
+      return (
+        <Fragment>
+          {discordLink}
+          {twitchLink}
+        </Fragment>
+      );
+    } else if (discordURL) {
+      return discordLink;
+    } else if (videoURL) {
+      return twitchLink;
+    } else {
+      return <List.Item key="na" content='N/A' />;
+    }
   }
 
   renderRSVPButton() {
