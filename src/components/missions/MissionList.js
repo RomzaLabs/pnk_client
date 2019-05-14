@@ -1,6 +1,20 @@
 import './MissionList.css';
 import React, {Component, Fragment} from 'react';
-import { Button, Container, Card, Dimmer, Divider, Grid, Header, Image, Icon, List, Loader, Modal, Segment, Table } from 'semantic-ui-react';
+import {
+  Button,
+  Container,
+  Card,
+  Dimmer,
+  Header,
+  Image,
+  Icon,
+  Input,
+  List,
+  Loader,
+  Menu,
+  Modal,
+  Table
+} from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
 import {observer} from 'mobx-react';
@@ -32,8 +46,9 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderMissionCards() {
-    const missions = this.missionsStore.missions;
-    if (!missions || !missions.length) return this.renderLoader();
+    const {isFiltered} = this.missionsStore;
+    const missions = isFiltered ? this.missionsStore.filteredMissions : this.missionsStore.missions;
+    if (!missions || (!missions.length && !isFiltered)) return this.renderLoader();
 
     return missions.map(mission => {
       const colorStatus = this.getColorStatus(mission.status);
@@ -259,6 +274,24 @@ const MissionList = observer(class MissionList extends Component {
     return <Button primary onClick={this.onRSVPClick}>RSVP</Button>
   }
 
+  renderFilterMenu() {
+    return (
+      <Menu>
+        <Menu.Item>
+          <Input className='icon'
+                 icon='search'
+                 placeholder='Filter...'
+                 onChange={(e) => this.handleFilter(e.target.value)}
+          />
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
+  handleFilter = (filterTerm) => {
+    this.missionsStore.setFilterTerm(filterTerm);
+  };
+
   onRSVPClick() {
     // TODO: Handle RSVP click.
     console.log("Handle RSVP click");
@@ -319,10 +352,12 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   render() {
+    const menu = this.renderFilterMenu();
     const cards = this.renderMissionCards();
     const modal = this.renderModal();
     return (
       <Container className="content">
+        {menu}
         <InfiniteScroll
           initialLoad={false}
           loadMore={() => this.loadMore()}

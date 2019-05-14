@@ -1,12 +1,12 @@
 export const dummyMissions = [
   {
     "id": "30",
-    "name": "Stanton System exploration",
-    "description": "We are going to explore around Stanton system for fun.",
+    "name": "Messing around in Yela",
+    "description": "We are just going to go to Yela and fuck shit up.",
     "discordURL": "https://discord.gg/QADycb2",
     "videoURL": "https://www.twitch.tv/starcitizen",
     "category": "Exploration",
-    "location": "Port Olisar",
+    "location": "Yela",
     "feature_image": "",
     "date": "2019-07-04T23:00:00Z",
     "status": "Active",
@@ -39,8 +39,8 @@ export const dummyMissions = [
   },
   {
     "id": "29",
-    "name": "Stanton System exploration",
-    "description": "We are going to explore around Stanton system for fun.",
+    "name": "Hovering in Space",
+    "description": "This looks like a worthwhile activity.",
     "discordURL": "https://discord.gg/QADycb2",
     "videoURL": "",
     "category": "Exploration",
@@ -51,8 +51,8 @@ export const dummyMissions = [
     "briefing": "",
     "debriefing": "",
     "commander": {
-      "id": 1,
-      "username": "Rommel"
+      "id": 2,
+      "username": "Axor"
     },
     "rsvpUsers": [
       {
@@ -77,20 +77,20 @@ export const dummyMissions = [
   },
   {
     "id": "28",
-    "name": "Stanton System exploration",
-    "description": "We are going to explore around Stanton system for fun.",
+    "name": "Operation Broken Arrow",
+    "description": "This is a top secret operation.",
     "discordURL": "",
     "videoURL": "https://www.twitch.tv/starcitizen",
     "category": "Exploration",
-    "location": "Port Olisar",
+    "location": "TOP SECRET",
     "feature_image": "https://i.redd.it/cr61vn490uw21.png",
     "date": "2019-07-02T23:00:00Z",
     "status": "Active",
     "briefing": "",
     "debriefing": "",
     "commander": {
-      "id": 1,
-      "username": "Rommel"
+      "id": 4,
+      "username": "Tar Garyen"
     },
     "rsvpUsers": [
       {
@@ -120,7 +120,7 @@ export const dummyMissions = [
     "discordURL": "",
     "videoURL": "",
     "category": "Exploration",
-    "location": "Port Olisar",
+    "location": "Stanton System",
     "feature_image": "https://i.redd.it/hfx3wnl5hjw21.png",
     "date": "2019-07-01T19:00:00Z",
     "status": "Active",
@@ -180,6 +180,10 @@ export const dummyMissions = [
       {
         "id": 4,
         "username": "Tar Garyen"
+      },
+      {
+        "id": 5,
+        "username": "Leaningtower"
       }
     ],
     "attended": [
