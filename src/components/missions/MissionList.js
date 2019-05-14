@@ -275,6 +275,12 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderFilterMenu() {
+    // TODO: Make stackable.
+    // TODO: Dropdown for Category
+    // TODO: Dropdown for Status
+    // TODO: Dropdown for Participants
+    // TODO: Dropdown for Locations? If it fits...
+    // TODO: Test on mobile.
     return (
       <Menu>
         <Menu.Item>
