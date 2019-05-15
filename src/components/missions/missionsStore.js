@@ -1,4 +1,4 @@
-import {action, computed, decorate, observable} from "mobx";
+import {action, computed, decorate, observable, toJS} from "mobx";
 import {dummyMissions} from "./dummyMissions";
 
 const MISSIONS_PER_PAGE = 10;
@@ -13,6 +13,10 @@ class MissionsStore {
   hasMore = true;
   loading = false;
   filterTerm = '';
+  filterCategories = [];
+  filterStatuses = [];
+  filterParticipants = [];
+  filterLocations = [];
 
   /* Constructor. */
 
@@ -39,41 +43,66 @@ class MissionsStore {
     this.filterTerm = filterTerm;
   }
 
+  setFilterCategories(categories) {
+    this.filterCategories = categories;
+  }
+
+  setFilterStatuses(statuses) {
+    this.filterStatuses = statuses;
+  }
+
+  setFilterParticipants(participants) {
+    this.filterParticipants = participants;
+  }
+
+  setFilterLocations(locations) {
+    this.filterLocations = locations;
+  }
+
   /* Computed Properties. */
 
   get filteredMissions() {
     return this.missions.filter(mission => {
       const filterTerm = this.filterTerm.toLowerCase();
 
-      // Fields to search on.
       const name = mission.name.toLowerCase();
       const description = mission.description.toLowerCase();
-      const status = mission.status.toLowerCase();
-      const category = mission.category.toLowerCase();
-      const location = mission.location.toLowerCase();
       const briefing = mission.briefing.toLowerCase();
       const debriefing = mission.debriefing.toLowerCase();
-      const commander = mission.commander.username.toLowerCase();
-      const rsvps = mission.rsvpUsers.map(user => user.username.toLowerCase()).join(',');
-      const attended = mission.attended.map(user => user.username.toLowerCase()).join(',');
 
       return (
-        name.includes(filterTerm)
-        || description.includes(filterTerm)
-        || status.includes(filterTerm)
-        || category.includes(filterTerm)
-        || location.includes(filterTerm)
-        || briefing.includes(filterTerm)
-        || debriefing.includes(filterTerm)
-        || commander.includes(filterTerm)
-        || rsvps.includes(filterTerm)
-        || attended.includes(filterTerm)
+        (filterTerm && name.includes(filterTerm))
+        || (filterTerm && description.includes(filterTerm))
+        || (filterTerm && briefing.includes(filterTerm))
+        || (filterTerm && debriefing.includes(filterTerm))
+        || (this.filterCategories.length && this.filterCategories.includes(mission.category))
+        || (this.filterStatuses.length && this.filterStatuses.includes(mission.status))
+        || (this.filterParticipants.length && this.filterParticipants.includes(mission.commander.username))
+        || (this.filterLocations.length && this.filterLocations.includes(mission.location))
       );
     });
   }
 
   get isFiltered() {
-    return this.filterTerm !== '';
+    return this.filterTerm || this.filterCategories.length || this.filterStatuses.length || this.filterParticipants.length || this.filterLocations.length;
+  }
+
+  get categories() {
+    return [...new Set(this.missions.map(mission => mission.category).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+  }
+
+  get statuses() {
+    return [...new Set(this.missions.map(mission => mission.status).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+  }
+
+  get participants() {
+    const commanders = this.missions.map(mission => mission.commander.username);
+    const rsvpUsers = this.missions.flatMap(mission => toJS(mission.rsvpUsers.map(user => user.username)));
+    return [...new Set(commanders.concat(rsvpUsers).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+  }
+
+  get locations() {
+    return [...new Set(this.missions.map(mission => mission.location).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
   }
 
   /* Helpers. */
@@ -100,10 +129,22 @@ decorate(MissionsStore, {
   hasMore: observable,
   loading: observable,
   filterTerm: observable,
+  filterCategories: observable,
+  filterStatuses: observable,
+  filterParticipants: observable,
+  filterLocations: observable,
+  categories: computed,
+  statuses: computed,
+  participants: computed,
+  locations: computed,
   filteredMissions: computed,
   isFiltered: computed,
   getMissions: action,
-  setFilterTerm: action
+  setFilterTerm: action,
+  setFilterCategories: action,
+  setFilterStatuses: action,
+  setFilterParticipants: action,
+  setFilterLocations: action
 });
 
 export default MissionsStore;

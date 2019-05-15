@@ -8,6 +8,10 @@
   font-size: 1.2rem;
 }
 
+.ui.input > input {
+  font-family: 'Furore', 'sans-serif';
+}
+
 .ui.list .list > .item .header, .ui.list > .item .header {
   font-family: 'Furore', 'sans-serif';
   font-weight: normal;
