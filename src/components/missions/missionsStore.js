@@ -1,4 +1,4 @@
-import {action, computed, decorate, observable, toJS} from "mobx";
+import { action, decorate, observable } from "mobx";
 import {dummyMissions} from "./dummyMissions";
 
 const MISSIONS_PER_PAGE = 10;
@@ -8,15 +8,29 @@ class MissionsStore {
   /* Observable Properties. */
 
   missions = [];
+  filteredMissions = [];
   selectedMission = null;
   currentPage = 0;
   hasMore = true;
   loading = false;
+  isFiltered = false;
   filterTerm = '';
+
+  categories = [];
   filterCategories = [];
+  selectedCategories = [];
+
+  statuses = [];
   filterStatuses = [];
+  selectedStatuses = [];
+
+  participants = [];
   filterParticipants = [];
+  selectedParticipants = [];
+
+  locations = [];
   filterLocations = [];
+  selectedLocations = [];
 
   /* Constructor. */
 
@@ -39,71 +53,109 @@ class MissionsStore {
     this.selectedMission = null;
   }
 
+  setIsFiltered() {
+    const hasFilterTerm = this.filterTerm !== '';
+    const hasSelectedCategory = this.selectedCategories.length > 0;
+    const hasSelectedStatus = this.selectedStatuses.length > 0;
+    const hasSelectedParticipant = this.selectedParticipants.length > 0;
+    const hasSelectedLocations = this.selectedLocations.length > 0;
+
+    // If any of the above is true, isFiltered == true
+    this.isFiltered = (
+      hasFilterTerm
+      || hasSelectedCategory
+      || hasSelectedStatus
+      || hasSelectedParticipant
+      || hasSelectedLocations
+    );
+  }
+
   setFilterTerm(filterTerm) {
     this.filterTerm = filterTerm;
+    this.setIsFiltered();
+    this.setFilteredMissions();
   }
 
-  setFilterCategories(categories) {
-    this.filterCategories = categories;
+  setCategories(missions) {
+    const categories = missions.map(mission => mission.category);
+    const sortedCategories = [...new Set(categories.sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+    if (this.isFiltered) {
+      this.filterCategories = sortedCategories;
+    } else {
+      this.categories = sortedCategories;
+    }
   }
 
-  setFilterStatuses(statuses) {
-    this.filterStatuses = statuses;
+  setStatuses(missions) {
+    const statuses = missions.map(mission => mission.status);
+    const sortedStatuses = [...new Set(statuses.sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+    if (this.isFiltered) {
+      this.filterStatuses = sortedStatuses;
+    } else {
+      this.statuses = sortedStatuses;
+    }
   }
 
-  setFilterParticipants(participants) {
-    this.filterParticipants = participants;
+  setParticipants(missions) {
+    const commanders = missions.map(mission => mission.commander.username);
+    const rsvpUsers = missions.flatMap(mission => mission.rsvpUsers.map(user => user.username));
+    const combinedUsers = commanders.concat(rsvpUsers).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
+    const participants = [...new Set(combinedUsers)];
+    if (this.isFiltered) {
+      this.filterParticipants = participants;
+    } else {
+      this.participants = participants;
+    }
   }
 
-  setFilterLocations(locations) {
-    this.filterLocations = locations;
+  setLocations(missions) {
+    const locations = missions.map(mission => mission.location);
+    const sortedLocations = [...new Set(locations.sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
+    if (this.isFiltered) {
+      this.filterLocations = sortedLocations;
+    } else {
+      this.locations = sortedLocations;
+    }
+  }
+
+  setFilteredMissions() {
+    // TODO: Get all the filters and determine the filtered missions.
+    // Apply the filterTerm
+    let missions = [];
+    if (this.filterTerm !== '') {
+      missions = this.missions.filter(mission => {
+        const filterTerm = this.filterTerm.toLowerCase();
+
+        const name = mission.name.toLowerCase();
+        const description = mission.description.toLowerCase();
+        const briefing = mission.briefing.toLowerCase();
+        const debriefing = mission.debriefing.toLowerCase();
+
+        return (
+          (filterTerm && name.includes(filterTerm))
+          || (filterTerm && description.includes(filterTerm))
+          || (filterTerm && briefing.includes(filterTerm))
+          || (filterTerm && debriefing.includes(filterTerm))
+        );
+      });
+    } else {
+      missions = this.missions;
+    }
+
+    // TODO: Apply the filterCategory
+    // TODO: Apply the filterStatus
+    // TODO: Apply the filterParticipants
+    // TODO: Apply the filterLocations
+
+    // Set the filtered missions and options.
+    this.filteredMissions = missions;
+    this.setCategories(missions);
+    this.setStatuses(missions);
+    this.setParticipants(missions);
+    this.setLocations(missions);
   }
 
   /* Computed Properties. */
-
-  get filteredMissions() {
-    return this.missions.filter(mission => {
-      const filterTerm = this.filterTerm.toLowerCase();
-
-      const name = mission.name.toLowerCase();
-      const description = mission.description.toLowerCase();
-      const briefing = mission.briefing.toLowerCase();
-      const debriefing = mission.debriefing.toLowerCase();
-
-      return (
-        (filterTerm && name.includes(filterTerm))
-        || (filterTerm && description.includes(filterTerm))
-        || (filterTerm && briefing.includes(filterTerm))
-        || (filterTerm && debriefing.includes(filterTerm))
-        || (this.filterCategories.length && this.filterCategories.includes(mission.category))
-        || (this.filterStatuses.length && this.filterStatuses.includes(mission.status))
-        || (this.filterParticipants.length && this.filterParticipants.includes(mission.commander.username))
-        || (this.filterLocations.length && this.filterLocations.includes(mission.location))
-      );
-    });
-  }
-
-  get isFiltered() {
-    return this.filterTerm || this.filterCategories.length || this.filterStatuses.length || this.filterParticipants.length || this.filterLocations.length;
-  }
-
-  get categories() {
-    return [...new Set(this.missions.map(mission => mission.category).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
-  }
-
-  get statuses() {
-    return [...new Set(this.missions.map(mission => mission.status).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
-  }
-
-  get participants() {
-    const commanders = this.missions.map(mission => mission.commander.username);
-    const rsvpUsers = this.missions.flatMap(mission => toJS(mission.rsvpUsers.map(user => user.username)));
-    return [...new Set(commanders.concat(rsvpUsers).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
-  }
-
-  get locations() {
-    return [...new Set(this.missions.map(mission => mission.location).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
-  }
 
   /* Helpers. */
 
@@ -116,6 +168,7 @@ class MissionsStore {
       this.hasMore = false;
     }
     this.missions = this.missions.concat(missionsToAdd);
+    this.setCategories(this.missions);
     this.loading = false;
   }
 
@@ -128,23 +181,28 @@ decorate(MissionsStore, {
   currentPage: observable,
   hasMore: observable,
   loading: observable,
+  isFiltered: observable,
+  filteredMissions: observable,
   filterTerm: observable,
+  categories: observable,
   filterCategories: observable,
+  selectedCategories: observable,
+  statuses: observable,
   filterStatuses: observable,
+  selectedStatuses: observable,
+  participants: observable,
   filterParticipants: observable,
+  selectedParticipants: observable,
+  locations: observable,
   filterLocations: observable,
-  categories: computed,
-  statuses: computed,
-  participants: computed,
-  locations: computed,
-  filteredMissions: computed,
-  isFiltered: computed,
+  selectedLocations: observable,
   getMissions: action,
-  setFilterTerm: action,
-  setFilterCategories: action,
-  setFilterStatuses: action,
-  setFilterParticipants: action,
-  setFilterLocations: action
+  setCategories: action,
+  setStatuses: action,
+  setParticipants: action,
+  setLocations: action,
+  setFilteredMissions: action,
+  setFilterTerm: action
 });
 
 export default MissionsStore;

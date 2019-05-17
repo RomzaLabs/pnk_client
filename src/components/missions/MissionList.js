@@ -5,7 +5,6 @@ import {
   Container,
   Card,
   Dimmer,
-  Dropdown,
   Header,
   Image,
   Icon,
@@ -275,59 +274,15 @@ const MissionList = observer(class MissionList extends Component {
     return <Button primary onClick={this.onRSVPClick}>RSVP</Button>
   }
 
-  onCategoryChange = (event, {value}) => {
-    this.missionsStore.setFilterCategories(value);
-  };
-
-  onStatusChange = (event, {value}) => {
-    this.missionsStore.setFilterStatuses(value);
-  };
-
-  onParticipantChange = (event, {value}) => {
-    this.missionsStore.setFilterParticipants(value);
-  };
-
-  onLocationChange = (event, {value}) => {
-    this.missionsStore.setFilterLocations(value);
-  };
-
   renderFilterMenu() {
-    const categoryOptions = this.missionsStore.categories.map(x => {
-      return {key: x, text: x, value: x};
-    });
-
-    const statusOptions = this.missionsStore.statuses.map(x => {
-      return {key: x, text: x, value: x};
-    });
-
-    const participantOptions = this.missionsStore.participants.map(x => {
-      return {key: x, text: x, value: x};
-    });
-
-    const locationOptions = this.missionsStore.locations.map(x => {
-      return {key: x, text: x, value: x};
-    });
-
     return (
       <Menu stackable widths={5}>
         <Menu.Item>
           <Input className='icon'
                  icon='search'
-                 placeholder='Filter...'
+                 placeholder='Filter'
                  onChange={(e) => this.handleFilter(e.target.value)}
           />
-        </Menu.Item>
-        <Menu.Item>
-          <Dropdown placeholder='Category' multiple selection options={categoryOptions} onChange={this.onCategoryChange}/>
-        </Menu.Item>
-        <Menu.Item>
-          <Dropdown placeholder='Status' multiple selection options={statusOptions} onChange={this.onStatusChange} />
-        </Menu.Item>
-        <Menu.Item>
-          <Dropdown placeholder='Participant' multiple selection options={participantOptions} onChange={this.onParticipantChange} />
-        </Menu.Item>
-        <Menu.Item>
-          <Dropdown placeholder='Locations' multiple selection options={locationOptions} onChange={this.onLocationChange} />
         </Menu.Item>
       </Menu>
     );
@@ -400,6 +355,12 @@ const MissionList = observer(class MissionList extends Component {
     const menu = this.renderFilterMenu();
     const cards = this.renderMissionCards();
     const modal = this.renderModal();
+
+    console.log("filterCategories", this.missionsStore.filterCategories);
+    console.log("filterStatuses", this.missionsStore.filterStatuses);
+    console.log("filterParticipants", this.missionsStore.filterParticipants);
+    console.log("filterLocations", this.missionsStore.filterLocations);
+    console.log("---");
 
     return (
       <Container className="content">
