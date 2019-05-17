@@ -5,6 +5,7 @@ import {
   Container,
   Card,
   Dimmer,
+  Dropdown,
   Header,
   Image,
   Icon,
@@ -275,8 +276,50 @@ const MissionList = observer(class MissionList extends Component {
   }
 
   renderFilterMenu() {
+    const {isFiltered} = this.missionsStore;
+    const categories = isFiltered ? this.missionsStore.filterCategories : this.missionsStore.categories;
+    const statuses = isFiltered ? this.missionsStore.filterStatuses : this.missionsStore.statuses;
+    const participants = isFiltered ? this.missionsStore.filterParticipants : this.missionsStore.participants;
+    const locations = isFiltered ? this.missionsStore.filterLocations : this.missionsStore.locations;
+
     return (
-      <Menu stackable widths={5}>
+      <Menu stackable widths={5} className='missionMenu'>
+        <Menu.Item>
+          <Dropdown placeholder='Category'
+                    multiple
+                    selection
+                    options={categories.map(x => {
+                      return {key: x, text: x, value: x};
+                    })}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown placeholder='Status'
+                    multiple
+                    selection
+                    options={statuses.map(x => {
+                      return {key: x, text: x, value: x};
+                    })}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown placeholder='Participant'
+                    multiple
+                    selection
+                    options={participants.map(x => {
+                      return {key: x, text: x, value: x};
+                    })}
+          />
+        </Menu.Item>
+        <Menu.Item>
+          <Dropdown placeholder='Location'
+                    multiple
+                    selection
+                    options={locations.map(x => {
+                      return {key: x, text: x, value: x};
+                    })}
+          />
+        </Menu.Item>
         <Menu.Item>
           <Input className='icon'
                  icon='search'
@@ -355,12 +398,6 @@ const MissionList = observer(class MissionList extends Component {
     const menu = this.renderFilterMenu();
     const cards = this.renderMissionCards();
     const modal = this.renderModal();
-
-    console.log("filterCategories", this.missionsStore.filterCategories);
-    console.log("filterStatuses", this.missionsStore.filterStatuses);
-    console.log("filterParticipants", this.missionsStore.filterParticipants);
-    console.log("filterLocations", this.missionsStore.filterLocations);
-    console.log("---");
 
     return (
       <Container className="content">

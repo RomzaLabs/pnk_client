@@ -169,6 +169,9 @@ class MissionsStore {
     }
     this.missions = this.missions.concat(missionsToAdd);
     this.setCategories(this.missions);
+    this.setStatuses(this.missions);
+    this.setParticipants(this.missions);
+    this.setLocations(this.missions);
     this.loading = false;
   }
 

@@ -12,6 +12,10 @@
   font-family: 'Furore', 'sans-serif';
 }
 
+.ui.stackable.five.item.missionMenu.menu {
+  padding-right: 0.6em !important;
+}
+
 .ui.list .list > .item .header, .ui.list > .item .header {
   font-family: 'Furore', 'sans-serif';
   font-weight: normal;
