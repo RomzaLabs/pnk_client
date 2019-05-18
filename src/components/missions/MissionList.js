@@ -38,7 +38,7 @@ const MissionList = observer(class MissionList extends Component {
     this.missionsStore.getMissions(); // Loads the first 10 missions.
   }
 
-  renderLoader() {
+  static renderLoader() {
     return (
       <Dimmer active>
         <Loader size='massive'>Loading Missions</Loader>
@@ -49,18 +49,18 @@ const MissionList = observer(class MissionList extends Component {
   renderMissionCards() {
     const {isFiltered} = this.missionsStore;
     const missions = isFiltered ? this.missionsStore.filteredMissions : this.missionsStore.missions;
-    if (!missions || (!missions.length && !isFiltered)) return this.renderLoader();
+    if (!missions || (!missions.length && !isFiltered)) return MissionList.renderLoader();
 
     return missions.map(mission => {
-      const colorStatus = this.getColorStatus(mission.status);
-      const imageURL = this.getImageURL(mission);
+      const colorStatus = MissionList.getColorStatus(mission.status);
+      const imageURL = MissionList.getImageURL(mission);
 
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const date = moment.tz(mission.date, timezone);
       const dateStr = date.format('DD.MMM.YYYY LT z');
-      const countdown = this.getCountdown(date);
+      const countdown = MissionList.getCountdown(date);
 
-      const userCount = this.getUserCount(mission);
+      const userCount = MissionList.getUserCount(mission);
 
       return (
         <Card key={mission.id} raised color={colorStatus} onClick={() => this.handleSelectedMission(mission)}>
@@ -96,17 +96,17 @@ const MissionList = observer(class MissionList extends Component {
     const mission = this.missionsStore.selectedMission;
     if (!mission) return undefined;
 
-    const missionHeader = this.renderMissionHeader(mission);
-    const missionDescription = this.renderMissionDescription(mission);
-    const missionBriefing = this.renderMissionBriefing(mission);
-    const missionDebriefing = this.renderMissionDebriefing(mission);
-    const participants = this.renderMissionParticipants(mission);
-    const rsvpButton = this.renderRSVPButton();
+    const missionHeader = MissionList.renderMissionHeader(mission);
+    const missionDescription = MissionList.renderMissionDescription(mission);
+    const missionBriefing = MissionList.renderMissionBriefing(mission);
+    const missionDebriefing = MissionList.renderMissionDebriefing(mission);
+    const participants = MissionList.renderMissionParticipants(mission);
+    const rsvpButton = MissionList.renderRSVPButton();
 
     return (
       <Modal centered={false} size='large' open={open} onClose={() => this.clearSelectedMission()}>
         <Modal.Content image scrolling>
-          <Image size='medium' src={this.getImageURL(mission)} wrapped />
+          <Image size='medium' src={MissionList.getImageURL(mission)} wrapped />
           <Modal.Description>
             {missionHeader}
             {missionDescription}
@@ -122,11 +122,11 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderMissionHeader(mission) {
+  static renderMissionHeader(mission) {
     const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
     const date = moment.tz(mission.date, timezone);
     const dateStr = date.format('DD.MMM.YYYY LT z');
-    const mediaItems = this.renderMediaItems(mission);
+    const mediaItems = MissionList.renderMediaItems(mission);
 
     return (
       <Fragment>
@@ -177,7 +177,7 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderMissionDescription(mission) {
+  static renderMissionDescription(mission) {
     return (
       <Fragment>
         <Header size="large">Mission Description</Header>
@@ -186,7 +186,7 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderMissionBriefing(mission) {
+  static renderMissionBriefing(mission) {
     if (!mission.briefing) return undefined;
     return (
       <Fragment>
@@ -196,7 +196,7 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderMissionDebriefing(mission) {
+  static renderMissionDebriefing(mission) {
     if (!mission.debriefing) return undefined;
     return (
       <Fragment>
@@ -206,9 +206,9 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderMissionParticipants(mission) {
-    const rsvpUsers = this.renderUser(mission.rsvpUsers);
-    const attendedUsers = this.renderUser(mission.attended);
+  static renderMissionParticipants(mission) {
+    const rsvpUsers = MissionList.renderUser(mission.rsvpUsers);
+    const attendedUsers = MissionList.renderUser(mission.attended);
     return (
       <Fragment>
         <Header size="large">Mission RSVPs</Header>
@@ -224,7 +224,7 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  renderUser(users) {
+  static renderUser(users) {
     return users.map(user => {
       return (
         <List.Item key={user.id}>
@@ -237,7 +237,7 @@ const MissionList = observer(class MissionList extends Component {
     });
   }
 
-  renderMediaItems(mission) {
+  static renderMediaItems(mission) {
     const discordURL = mission.discordURL;
     const videoURL = mission.videoURL;
 
@@ -270,9 +270,9 @@ const MissionList = observer(class MissionList extends Component {
     }
   }
 
-  renderRSVPButton() {
-    // TODO: Don't show this button if user is already RSVPd.
-    return <Button primary onClick={this.onRSVPClick}>RSVP</Button>
+  static renderRSVPButton() {
+    // Don't show this button if user is already RSVPd.
+    return <Button primary onClick={MissionList.onRSVPClick}>RSVP</Button>
   }
 
   renderFilterMenu() {
@@ -335,12 +335,12 @@ const MissionList = observer(class MissionList extends Component {
     this.missionsStore.setFilterTerm(filterTerm);
   };
 
-  onRSVPClick() {
+  static onRSVPClick() {
     // TODO: Handle RSVP click.
     console.log("Handle RSVP click");
   }
 
-  getCountdown(date) {
+  static getCountdown(date) {
     const today = moment();
     if (date.isBefore(today)) return undefined;
     return (
@@ -350,7 +350,7 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-  getColorStatus(status) {
+  static getColorStatus(status) {
     switch(status) {
       case ACTIVE_MISSION: return "yellow";
       case SUCCESSFUL_MISSION: return "green";
@@ -359,15 +359,15 @@ const MissionList = observer(class MissionList extends Component {
     }
   }
 
-  getImageURL(mission) {
+  static getImageURL(mission) {
     if (mission.feature_image) {
       return mission.feature_image;
     } else {
-      return this.getCategoryDefaultURL(mission.category);
+      return MissionList.getCategoryDefaultURL(mission.category);
     }
   }
 
-  getCategoryDefaultURL(category) {
+  static getCategoryDefaultURL(category) {
     switch (category) {
       case COMMUNITY_CATEGORY: return "/images/missions/community_category.png";
       case EXPLORATION_CATEGORY: return "/images/missions/exploration_category.png";
@@ -378,7 +378,7 @@ const MissionList = observer(class MissionList extends Component {
     }
   }
 
-  getUserCount(mission) {
+  static getUserCount(mission) {
     const today = moment();
     const missionDate = moment(mission.date);
 
