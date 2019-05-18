@@ -130,6 +130,12 @@ class MissionsStore {
     this.setFilteredMissions();
   }
 
+  setSelectedParticipants(participants) {
+    this.selectedParticipants = participants;
+    this.setIsFiltered();
+    this.setFilteredMissions();
+  }
+
   setFilteredMissions() {
     let missions = [];
     if (this.isFiltered) {
@@ -140,9 +146,11 @@ class MissionsStore {
         const description = mission.description.toLowerCase();
         const briefing = mission.briefing.toLowerCase();
         const debriefing = mission.debriefing.toLowerCase();
+        const participants = [...mission.rsvpUsers.map(user => user.username), mission.commander.username];
 
         if (this.selectedCategories.length && !this.selectedCategories.includes(mission.category)) return false;
         if (this.selectedStatuses.length && !this.selectedStatuses.includes(mission.status)) return false;
+        if (this.selectedParticipants.length && !participants.includes(this.selectedParticipants)) return false;
 
         return (
           name.includes(filterTerm)
@@ -155,7 +163,6 @@ class MissionsStore {
       missions = this.missions;
     }
 
-    // TODO: Apply the filterParticipants
     // TODO: Apply the filterLocations
 
     // Set the filtered missions and options.
@@ -218,7 +225,8 @@ decorate(MissionsStore, {
   setFilteredMissions: action,
   setFilterTerm: action,
   setSelectedCategories: action,
-  setSelectedStatuses: action
+  setSelectedStatuses: action,
+  setSelectedParticipants: action
 });
 
 export default MissionsStore;
