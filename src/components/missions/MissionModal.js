@@ -193,7 +193,6 @@ class MissionModal extends Component {
     const open = this.missionsStore.selectedMission !== null;
     const mission = this.missionsStore.selectedMission;
     if (!mission) return undefined;
-    // const mission = this.missionsStore.missions[0];
 
     const missionHeader = MissionModal.renderMissionHeader(mission);
     const missionDescription = MissionModal.renderMissionDescription(mission);
