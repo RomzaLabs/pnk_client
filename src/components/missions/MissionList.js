@@ -23,7 +23,7 @@ const MissionList = observer(class MissionList extends Component {
     if (!missions || (!missions.length && !isFiltered)) return MissionsUtils.renderLoader();
 
     return missions.map(mission => {
-      return <MissionCard mission={mission} onClick={() => this.handleSelectedMission(mission)} />;
+      return <MissionCard key={mission.id} mission={mission} onClick={() => this.handleSelectedMission(mission)} />;
     });
   }
 
