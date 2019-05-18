@@ -136,6 +136,12 @@ class MissionsStore {
     this.setFilteredMissions();
   }
 
+  setSelectedLocations(locations) {
+    this.selectedLocations = locations;
+    this.setIsFiltered();
+    this.setFilteredMissions();
+  }
+
   setFilteredMissions() {
     let missions = [];
     if (this.isFiltered) {
@@ -151,6 +157,7 @@ class MissionsStore {
         if (this.selectedCategories.length && !this.selectedCategories.includes(mission.category)) return false;
         if (this.selectedStatuses.length && !this.selectedStatuses.includes(mission.status)) return false;
         if (this.selectedParticipants.length && !participants.includes(this.selectedParticipants)) return false;
+        if (this.selectedLocations.length && !this.selectedLocations.includes(mission.location)) return false;
 
         return (
           name.includes(filterTerm)
@@ -162,8 +169,6 @@ class MissionsStore {
     } else {
       missions = this.missions;
     }
-
-    // TODO: Apply the filterLocations
 
     // Set the filtered missions and options.
     this.filteredMissions = missions;
@@ -226,7 +231,8 @@ decorate(MissionsStore, {
   setFilterTerm: action,
   setSelectedCategories: action,
   setSelectedStatuses: action,
-  setSelectedParticipants: action
+  setSelectedParticipants: action,
+  setSelectedLocations: action
 });
 
 export default MissionsStore;
