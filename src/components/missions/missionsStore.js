@@ -1,4 +1,4 @@
-import { action, decorate, observable } from "mobx";
+import {action, decorate, observable} from "mobx";
 import {dummyMissions} from "./dummyMissions";
 
 const MISSIONS_PER_PAGE = 10;
@@ -118,11 +118,15 @@ class MissionsStore {
     }
   }
 
+  setSelectedCategories(categories) {
+    this.selectedCategories = categories;
+    this.setIsFiltered();
+    this.setFilteredMissions();
+  }
+
   setFilteredMissions() {
-    // TODO: Get all the filters and determine the filtered missions.
-    // Apply the filterTerm
     let missions = [];
-    if (this.filterTerm !== '') {
+    if (this.isFiltered) {
       missions = this.missions.filter(mission => {
         const filterTerm = this.filterTerm.toLowerCase();
 
@@ -131,18 +135,19 @@ class MissionsStore {
         const briefing = mission.briefing.toLowerCase();
         const debriefing = mission.debriefing.toLowerCase();
 
+        if (this.selectedCategories.includes(mission.category) === false) return false;
+
         return (
-          (filterTerm && name.includes(filterTerm))
-          || (filterTerm && description.includes(filterTerm))
-          || (filterTerm && briefing.includes(filterTerm))
-          || (filterTerm && debriefing.includes(filterTerm))
+          name.includes(filterTerm)
+          || description.includes(filterTerm)
+          || briefing.includes(filterTerm)
+          || debriefing.includes(filterTerm)
         );
       });
     } else {
       missions = this.missions;
     }
 
-    // TODO: Apply the filterCategory
     // TODO: Apply the filterStatus
     // TODO: Apply the filterParticipants
     // TODO: Apply the filterLocations
@@ -205,7 +210,8 @@ decorate(MissionsStore, {
   setParticipants: action,
   setLocations: action,
   setFilteredMissions: action,
-  setFilterTerm: action
+  setFilterTerm: action,
+  setSelectedCategories: action
 });
 
 export default MissionsStore;
