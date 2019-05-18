@@ -341,7 +341,7 @@ const MissionList = observer(class MissionList extends Component {
           />
         </Menu.Item>
         <Menu.Item>
-          <Input className='icon'
+          <Input className='icon mission-list search'
                  icon='search'
                  placeholder='Filter'
                  onChange={(e) => this.handleFilter(e.target.value)}

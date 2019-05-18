@@ -69,3 +69,7 @@
 .ui.modal > .content > .description {
   color: black;
 }
+
+.mission-list.search {
+  height: 2.71428571em;
+}
