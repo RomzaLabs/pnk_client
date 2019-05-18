@@ -279,6 +279,10 @@ const MissionList = observer(class MissionList extends Component {
     this.missionsStore.setSelectedCategories(value);
   };
 
+  onStatusChange = (event, {value}) => {
+    this.missionsStore.setSelectedStatuses(value);
+  };
+
   renderFilterMenu() {
     const {isFiltered} = this.missionsStore;
     const categories = isFiltered ? this.missionsStore.filterCategories : this.missionsStore.categories;
@@ -300,11 +304,12 @@ const MissionList = observer(class MissionList extends Component {
         </Menu.Item>
         <Menu.Item>
           <Dropdown placeholder='Status'
-                    multiple
+                    clearable
                     selection
                     options={statuses.map(x => {
                       return {key: x, text: x, value: x};
                     })}
+                    onChange={this.onStatusChange}
           />
         </Menu.Item>
         <Menu.Item>

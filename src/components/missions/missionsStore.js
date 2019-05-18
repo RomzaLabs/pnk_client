@@ -124,6 +124,12 @@ class MissionsStore {
     this.setFilteredMissions();
   }
 
+  setSelectedStatuses(statuses) {
+    this.selectedStatuses = statuses;
+    this.setIsFiltered();
+    this.setFilteredMissions();
+  }
+
   setFilteredMissions() {
     let missions = [];
     if (this.isFiltered) {
@@ -135,7 +141,8 @@ class MissionsStore {
         const briefing = mission.briefing.toLowerCase();
         const debriefing = mission.debriefing.toLowerCase();
 
-        if (this.selectedCategories.includes(mission.category) === false) return false;
+        if (this.selectedCategories.length && !this.selectedCategories.includes(mission.category)) return false;
+        if (this.selectedStatuses.length && !this.selectedStatuses.includes(mission.status)) return false;
 
         return (
           name.includes(filterTerm)
@@ -148,7 +155,6 @@ class MissionsStore {
       missions = this.missions;
     }
 
-    // TODO: Apply the filterStatus
     // TODO: Apply the filterParticipants
     // TODO: Apply the filterLocations
 
@@ -211,7 +217,8 @@ decorate(MissionsStore, {
   setLocations: action,
   setFilteredMissions: action,
   setFilterTerm: action,
-  setSelectedCategories: action
+  setSelectedCategories: action,
+  setSelectedStatuses: action
 });
 
 export default MissionsStore;
