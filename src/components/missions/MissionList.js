@@ -1,20 +1,15 @@
 import './MissionList.css';
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {
-  Button,
   Container,
   Card,
   Dimmer,
   Dropdown,
-  Header,
   Image,
   Icon,
   Input,
-  List,
   Loader,
   Menu,
-  Modal,
-  Table
 } from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import moment from 'moment-timezone';
@@ -29,6 +24,7 @@ import {
   MINING_CATEGORY, MISSION_CATEGORY, OTHER_CATEGORY,
   SUCCESSFUL_MISSION
 } from "./types";
+import MissionModal from "./MissionModal";
 
 const MissionList = observer(class MissionList extends Component {
 
@@ -90,190 +86,6 @@ const MissionList = observer(class MissionList extends Component {
   clearSelectedMission = () => {
     this.missionsStore.clearSelectedMission();
   };
-
-  renderModal() {
-    const open = this.missionsStore.selectedMission !== null;
-    const mission = this.missionsStore.selectedMission;
-    if (!mission) return undefined;
-
-    const missionHeader = MissionList.renderMissionHeader(mission);
-    const missionDescription = MissionList.renderMissionDescription(mission);
-    const missionBriefing = MissionList.renderMissionBriefing(mission);
-    const missionDebriefing = MissionList.renderMissionDebriefing(mission);
-    const participants = MissionList.renderMissionParticipants(mission);
-    const rsvpButton = MissionList.renderRSVPButton();
-
-    return (
-      <Modal centered={false} size='large' open={open} onClose={() => this.clearSelectedMission()}>
-        <Modal.Content image scrolling>
-          <Image size='medium' src={MissionList.getImageURL(mission)} wrapped />
-          <Modal.Description>
-            {missionHeader}
-            {missionDescription}
-            {missionBriefing}
-            {missionDebriefing}
-            {participants}
-          </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
-          {rsvpButton}
-        </Modal.Actions>
-      </Modal>
-    );
-  }
-
-  static renderMissionHeader(mission) {
-    const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
-    const date = moment.tz(mission.date, timezone);
-    const dateStr = date.format('DD.MMM.YYYY LT z');
-    const mediaItems = MissionList.renderMediaItems(mission);
-
-    return (
-      <Fragment>
-        <Header size='huge'>{mission.name}</Header>
-        <Table definition>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>Date</Table.Cell>
-              <Table.Cell>{dateStr}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Status</Table.Cell>
-              <Table.Cell>{mission.status}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell width={2}>Category</Table.Cell>
-              <Table.Cell>{mission.category}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Location</Table.Cell>
-              <Table.Cell>{mission.location}</Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Commander</Table.Cell>
-              <Table.Cell>
-                <List animated verticalAlign='middle'>
-                  <List.Item>
-                    <Image avatar src='/images/avatar/generic.png' />
-                    <List.Content>
-                      <List.Header>{mission.commander.username}</List.Header>
-                    </List.Content>
-                  </List.Item>
-                </List>
-              </Table.Cell>
-            </Table.Row>
-            <Table.Row>
-              <Table.Cell>Media</Table.Cell>
-              <Table.Cell>
-                <List>
-                  {mediaItems}
-                </List>
-              </Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
-
-      </Fragment>
-    );
-  }
-
-  static renderMissionDescription(mission) {
-    return (
-      <Fragment>
-        <Header size="large">Mission Description</Header>
-        <p>{mission.description}</p>
-      </Fragment>
-    );
-  }
-
-  static renderMissionBriefing(mission) {
-    if (!mission.briefing) return undefined;
-    return (
-      <Fragment>
-        <Header size="large">Mission Briefing</Header>
-        <p>{mission.briefing}</p>
-      </Fragment>
-    );
-  }
-
-  static renderMissionDebriefing(mission) {
-    if (!mission.debriefing) return undefined;
-    return (
-      <Fragment>
-        <Header size="large">Mission Debriefing</Header>
-        <p>{mission.debriefing}</p>
-      </Fragment>
-    );
-  }
-
-  static renderMissionParticipants(mission) {
-    const rsvpUsers = MissionList.renderUser(mission.rsvpUsers);
-    const attendedUsers = MissionList.renderUser(mission.attended);
-    return (
-      <Fragment>
-        <Header size="large">Mission RSVPs</Header>
-        <List horizontal ordered verticalAlign='middle'>
-          {rsvpUsers}
-        </List>
-
-        <Header size="large">Mission Attendees</Header>
-        <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
-          {attendedUsers}
-        </List>
-      </Fragment>
-    );
-  }
-
-  static renderUser(users) {
-    return users.map(user => {
-      return (
-        <List.Item key={user.id}>
-          <Image avatar src='/images/avatar/generic.png' />
-          <List.Content>
-            <List.Header>{user.username}</List.Header>
-          </List.Content>
-        </List.Item>
-      );
-    });
-  }
-
-  static renderMediaItems(mission) {
-    const discordURL = mission.discordURL;
-    const videoURL = mission.videoURL;
-
-    const discordLink =
-      <List.Item
-        key="discord"
-        icon='discord'
-        content={<a href={mission.discordURL} target='_blank' rel="noopener noreferrer">Mission Discord</a>}
-      />;
-    const twitchLink =
-      <List.Item
-        key="twitch"
-        icon='twitch'
-        content={<a href={mission.videoURL} target='_blank' rel="noopener noreferrer">Mission Twitch</a>}
-      />;
-
-    if (discordURL && videoURL) {
-      return (
-        <Fragment>
-          {discordLink}
-          {twitchLink}
-        </Fragment>
-      );
-    } else if (discordURL) {
-      return discordLink;
-    } else if (videoURL) {
-      return twitchLink;
-    } else {
-      return <List.Item key="na" content='N/A' />;
-    }
-  }
-
-  static renderRSVPButton() {
-    // Don't show this button if user is already RSVPd.
-    return <Button primary onClick={MissionList.onRSVPClick}>RSVP</Button>
-  }
 
   onCategoryChange = (event, {value}) => {
     this.missionsStore.setSelectedCategories(value);
@@ -417,7 +229,10 @@ const MissionList = observer(class MissionList extends Component {
   render() {
     const menu = this.renderFilterMenu();
     const cards = this.renderMissionCards();
-    const modal = this.renderModal();
+    let modal;
+    if (this.missionsStore.selectedMission) {
+      modal = <MissionModal missionsStore={this.missionsStore} onClose={this.clearSelectedMission} />;
+    }
 
     return (
       <Container className="content">
