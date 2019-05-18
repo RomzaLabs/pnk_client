@@ -189,6 +189,10 @@ class MissionModal extends Component {
     }
   }
 
+  static onRSVPClick() {
+    console.log("Handle RSVP click");
+  }
+
   render() {
     const open = this.missionsStore.selectedMission !== null;
     const mission = this.missionsStore.selectedMission;
