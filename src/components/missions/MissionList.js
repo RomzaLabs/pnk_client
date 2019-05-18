@@ -1,12 +1,13 @@
 import './css/MissionList.css';
 import React, {Component} from 'react';
-import { Container, Card, Dimmer, Loader } from 'semantic-ui-react';
+import { Container, Card } from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import {observer} from 'mobx-react';
 import InfiniteScroll from 'react-infinite-scroller';
 import MissionModal from "./MissionModal";
 import MissionFilters from "./MissionFilters";
 import MissionCard from "./MissionCard";
+import MissionsUtils from "./missionsUtils";
 
 const MissionList = observer(class MissionList extends Component {
 
@@ -16,18 +17,10 @@ const MissionList = observer(class MissionList extends Component {
     this.missionsStore.getMissions(); // Loads the first 10 missions.
   }
 
-  static renderLoader() {
-    return (
-      <Dimmer active>
-        <Loader size='massive'>Loading Missions</Loader>
-      </Dimmer>
-    );
-  }
-
   renderMissionCards() {
     const {isFiltered} = this.missionsStore;
     const missions = isFiltered ? this.missionsStore.filteredMissions : this.missionsStore.missions;
-    if (!missions || (!missions.length && !isFiltered)) return MissionList.renderLoader();
+    if (!missions || (!missions.length && !isFiltered)) return MissionsUtils.renderLoader();
 
     return missions.map(mission => {
       return <MissionCard mission={mission} onClick={() => this.handleSelectedMission(mission)} />;
