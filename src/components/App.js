@@ -4,7 +4,7 @@ import {Route, Router, Switch} from "react-router-dom";
 import { Container } from 'semantic-ui-react'
 import Header from "./Header";
 import MissionList from "./missions/MissionList";
-import './App.css';
+import './css/App.css';
 
 const App = () => {
   return (

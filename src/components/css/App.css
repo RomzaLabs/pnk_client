@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: Furore;
-  src: url("../fonts/Furore.otf") format("opentype");
+  src: url("../../fonts/Furore.otf") format("opentype");
 }
 body {
   font-family: 'Furore', 'sans-serif';
   background-color: #181818;
-  background-image: url("../images/Yela.jpg");
+  background-image: url("../../images/Yela.jpg");
   background-size: cover;
   color: white;
 }
