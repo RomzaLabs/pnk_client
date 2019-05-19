@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
-import {Container, Image, Menu} from 'semantic-ui-react'
+import {Container, Image, Menu} from 'semantic-ui-react';
 
 const Header = () => {
 
