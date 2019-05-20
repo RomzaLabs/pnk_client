@@ -1,0 +1,8 @@
+/* Header CSS goes here. */
+
+.ui.menu {
+  background-color: #1A252D;
+}
+.ui.menu.header {
+  padding: 1rem;
+}

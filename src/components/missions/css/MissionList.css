@@ -1,0 +1,75 @@
+.content {
+  background-color: #131a21;
+  padding: 1rem;
+}
+
+.ui.header {
+  font-family: 'Furore', 'sans-serif';
+  font-size: 1.2rem;
+}
+
+.ui.input > input {
+  font-family: 'Furore', 'sans-serif';
+}
+
+.ui.stackable.five.item.missionMenu.menu {
+  padding-right: 0.6em !important;
+}
+
+.ui.list .list > .item .header, .ui.list > .item .header {
+  font-family: 'Furore', 'sans-serif';
+  font-weight: normal;
+}
+
+.ui.list .list > .item > .content, .ui.list > .item > .content {
+  background-color: transparent;
+}
+
+.ui.list .list > .item a, .ui.list > .item a {
+  color: black;
+}
+
+.ui.list .list > .item a:hover, .ui.list > .item a:hover {
+  color: black !important;
+}
+
+.ui.cards > .yellow.card, .ui.yellow.card, .ui.yellow.cards > .card {
+  border-top: 2px solid #FBBD08;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .yellow.card:hover, .ui.yellow.card:hover, .ui.yellow.cards > .card:hover {
+  border-top: 2px solid #FBBD08;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui.cards > .green.card, .ui.green.card, .ui.green.cards > .card {
+  border-top: 2px solid #21BA45;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .green.card:hover, .ui.green.card:hover, .ui.green.cards > .card:hover {
+  border-top: 2px solid #21BA45;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui.cards > .red.card, .ui.red.card, .ui.red.cards > .card {
+  border-top: 2px solid #DB2828;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ui.cards > .red.card:hover, .ui.red.card:hover, .ui.red.cards > .card:hover {
+  border-top: 2px solid #DB2828;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.ui.modal > .content > .description {
+  color: black;
+}
+
+.mission-list.search {
+  height: 2.71428571em;
+}

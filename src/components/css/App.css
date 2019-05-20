@@ -1,0 +1,31 @@
+/* App CSS goes here. */
+
+@font-face {
+  font-family: Furore;
+  src: url("../../fonts/Furore.otf") format("opentype");
+}
+body {
+  font-family: 'Furore', 'sans-serif';
+  background-color: #181818;
+  background-image: url("../../images/Yela.jpg");
+  background-size: cover;
+  color: white;
+}
+.ui.menu {
+  font-family: 'Furore', 'sans-serif';
+}
+
+.ui a {
+  color: #C3C6C9;
+}
+.ui .active a {
+  color: white;
+}
+.ui .active a:hover {
+  color: white !important;
+}
+
+.ui.card > .content > .header, .ui.cards > .card > .content > .header {
+  font-family: 'Furore', 'sans-serif';
+  font-size: 1.2rem;
+}
