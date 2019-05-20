@@ -1,5 +1,4 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import MissionsStore from '../missionsStore';
 import moxios from 'moxios';
 
