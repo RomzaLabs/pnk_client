@@ -98,7 +98,9 @@ class MissionsStore {
 
   setParticipants(missions) {
     const commanders = missions.map(mission => mission.commander.username);
-    const rsvpUsers = missions.flatMap(mission => mission.rsvpUsers.map(user => user.username));
+    // flatMap is not supported in Jest when unit testing... sigh...
+    // const rsvpUsers = missions.flatMap(mission => mission.rsvpUsers.map(user => user.username));
+    const rsvpUsers = missions.reduce((acc, mission) => acc.concat(mission.rsvpUsers.map(user => user.username)), []);
     const combinedUsers = commanders.concat(rsvpUsers).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
     const participants = [...new Set(combinedUsers)];
     if (this.isFiltered) {
