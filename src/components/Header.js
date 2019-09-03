@@ -17,6 +17,22 @@ const Header = () => {
         <Menu.Item name='missions' active>
           <Link to="/">Missions</Link>
         </Menu.Item>
+
+        <Menu.Menu position='right'>
+          <Menu.Item
+            name='login'
+            onClick={() => {}}
+          >
+            Log In
+          </Menu.Item>
+
+          <Menu.Item
+            name='signup'
+            onClick={() => {}}
+          >
+            Join Us
+          </Menu.Item>
+        </Menu.Menu>
       </Menu>
     </Container>
   );
