@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import './css/Header.css';
 import {Container, Image, Menu} from 'semantic-ui-react';
 
 const Header = () => {
+  const [currentPage, setCurrentPage] = useState('missions');
 
   return (
     <Container>
@@ -14,21 +15,27 @@ const Header = () => {
           </Link>
         </Menu.Item>
 
-        <Menu.Item name='missions' active>
+        <Menu.Item
+          name='missions'
+          active={currentPage === 'missions'}
+          onClick={() => setCurrentPage('missions')}
+        >
           <Link to="/">Missions</Link>
         </Menu.Item>
 
         <Menu.Menu position='right'>
           <Menu.Item
             name='login'
-            onClick={() => {}}
+            active={currentPage === 'login'}
+            onClick={() => setCurrentPage('login')}
           >
-            Log In
+            <Link to="/login">Log In</Link>
           </Menu.Item>
 
           <Menu.Item
             name='signup'
-            onClick={() => {}}
+            active={currentPage === 'signup'}
+            onClick={() => setCurrentPage('signup')}
           >
             Join Us
           </Menu.Item>
