@@ -15,13 +15,15 @@ body {
   font-family: 'Furore', 'sans-serif';
 }
 
-.ui a {
+.item > a, .ui.menu .item {
   color: #C3C6C9;
 }
-.ui .active a {
+
+.active.item > a, .ui.menu .active.item {
   color: white;
 }
-.ui .active a:hover {
+
+.ui.menu a.item:hover, .ui.menu .item > a:hover {
   color: white !important;
 }
 
