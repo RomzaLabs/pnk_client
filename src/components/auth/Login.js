@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Container, Form, Button, Grid} from "semantic-ui-react";
 
-const Login = observer(class Login extends Component {
+class Login extends Component {
 
   onLoginClick = () => {
     console.log("Placeholder for handling login.");
@@ -37,6 +37,6 @@ const Login = observer(class Login extends Component {
     );
   }
 
-});
+}
 
-export default Login;
+export default observer(Login);
