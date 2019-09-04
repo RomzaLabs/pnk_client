@@ -26,11 +26,9 @@ const Login = observer(class Login extends Component {
             </Container>
             <Container className={"login-container message"}>
               <div>
-                Forgot your password? <a href="https://api.purnkleen.com/accounts/password_reset/"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                  Reset it here.
-                </a>
+                Forgot your password? <a href="https://api.purnkleen.com/accounts/password_reset/">Reset it here.</a>
+                <br/>
+                Want to join us? <a href="https://robertsspaceindustries.com/orgs/PNK">Register here!</a>
               </div>
             </Container>
           </Grid.Column>
