@@ -24,6 +24,15 @@ const Login = observer(class Login extends Component {
                 <Button fluid secondary type='submit' onClick={this.onLoginClick}>Login</Button>
               </Form>
             </Container>
+            <Container className={"login-container message"}>
+              <div>
+                Forgot your password? <a href="https://api.purnkleen.com/accounts/password_reset/"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                  Reset it here.
+                </a>
+              </div>
+            </Container>
           </Grid.Column>
         </Grid>
       </Container>
