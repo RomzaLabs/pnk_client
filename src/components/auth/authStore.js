@@ -1,4 +1,4 @@
-import {action, decorate, observable} from "mobx";
+import {computed, decorate, observable} from "mobx";
 
 class AuthStore {
 
@@ -8,39 +8,34 @@ class AuthStore {
 
   /* Observable Properties. */
 
-  userToken = undefined;
-  userName = undefined;
-  password = undefined;
+  user = null;
 
   /* Constructor. */
 
   /* Actions. */
 
-  setUserToken(token) {
-    this.userToken = token;
+  login(username, password) {
+    this.user = {token: "dummy"};
   }
 
-  setUserName(username) {
-    this.userName = username;
-  }
-
-  setPassword(password) {
-    this.password = password;
+  logout() {
+    // TODO: Remove token from local Storage.
+    // TODO: Redirect user to homepage
   }
 
   /* Computed Properties. */
+
+  get isLoggedIn() {
+    return !!this.user;
+  }
 
   /* Helpers. */
 
 }
 
 decorate(AuthStore, {
-  userToken: observable,
-  userName: observable,
-  password: observable,
-  setUserToken: action,
-  setUserName: action,
-  setPassword: action
+  user: observable,
+  isLoggedIn: computed
 });
 
 export default new AuthStore();
