@@ -2,10 +2,6 @@ import {computed, decorate, observable} from "mobx";
 
 class AuthStore {
 
-  constructor(){
-    console.log("in authstore constructor")
-  }
-
   /* Observable Properties. */
 
   user = null;
