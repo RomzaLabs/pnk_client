@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import './css/Header.css';
 import {Container, Image, Menu} from 'semantic-ui-react';
+import history from "../history";
 
 const Header = () => {
   const [currentPage, setCurrentPage] = useState('missions');
@@ -8,15 +9,17 @@ const Header = () => {
   return (
     <Container>
       <Menu stackable>
-        <Menu.Item href='/'>
+        <Menu.Item onClick={() => history.push("/")}>
           <Image src='/images/PurNKleen_logo.png' size='tiny'/>
         </Menu.Item>
 
         <Menu.Item
           name='missions'
           active={currentPage === 'missions'}
-          onClick={() => setCurrentPage('missions')}
-          href='/'
+          onClick={() => {
+            setCurrentPage('missions')
+            history.push("/");
+          }}
         >
           Missions
         </Menu.Item>
@@ -25,8 +28,10 @@ const Header = () => {
           <Menu.Item
             name='login'
             active={currentPage === 'login'}
-            onClick={() => setCurrentPage('login')}
-            href='/login'
+            onClick={() => {
+              setCurrentPage('login');
+              history.push("/login");
+            }}
           >
             Log In
           </Menu.Item>
