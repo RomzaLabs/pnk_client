@@ -10,7 +10,17 @@ class Login extends Component {
     authStore.login("user", "pass");
   };
 
+  renderErrorMessage() {
+    return (
+      <Container className="login-container message error">
+        <div>{authStore.error}</div>
+      </Container>
+    );
+  }
+
   render() {
+    const errorMessage = authStore.hasErrors ? this.renderErrorMessage() : undefined;
+
     return (
       <Container className="content full-height">
         <Grid centered>
@@ -20,11 +30,12 @@ class Login extends Component {
                 Log In to your account
               </h3>
               <Form>
-                <Form.Input label='Username' placeholder='Username' />
-                <Form.Input label='Password' type='password' />
+                <Form.Input label='Username' placeholder='Username' error={authStore.hasErrors} />
+                <Form.Input label='Password' type='password' error={authStore.hasErrors} />
                 <Button fluid secondary type='submit' onClick={this.onLoginClick}>Login</Button>
               </Form>
             </Container>
+            {errorMessage}
             <Container className={"login-container message"}>
               <div>
                 Forgot your password? <a href="https://api.purnkleen.com/accounts/password_reset/">Reset it here.</a>
