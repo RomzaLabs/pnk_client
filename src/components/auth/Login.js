@@ -2,15 +2,12 @@ import './css/Login.css';
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Container, Form, Button, Grid} from "semantic-ui-react";
-import history from "../../history";
 import authStore from "./authStore";
 
 class Login extends Component {
 
   onLoginClick = () => {
-    // TODO: Handle login.
     authStore.login("user", "pass");
-    history.push("/");
   };
 
   render() {

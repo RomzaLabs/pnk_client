@@ -1,4 +1,5 @@
 import {computed, decorate, observable} from "mobx";
+import history from "../../history";
 
 class AuthStore {
 
@@ -11,7 +12,10 @@ class AuthStore {
   /* Actions. */
 
   login(username, password) {
+    // TODO: Handle actual authentication.
     this.user = {token: "dummy"};
+    // TODO: Only do this if successful.
+    history.push("/");
   }
 
   logout() {
