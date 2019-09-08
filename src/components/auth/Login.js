@@ -6,8 +6,10 @@ import authStore from "./authStore";
 
 class Login extends Component {
 
+  state = { username: "", password: "" };
+
   onLoginClick = () => {
-    authStore.login("user", "pass");
+    authStore.login(this.state.username, this.state.password);
   };
 
   renderErrorMessage() {
@@ -30,8 +32,20 @@ class Login extends Component {
                 Log In to your account
               </h3>
               <Form>
-                <Form.Input label='Username' placeholder='Username' error={authStore.hasErrors} />
-                <Form.Input label='Password' type='password' error={authStore.hasErrors} />
+                <Form.Input
+                  label='Username'
+                  placeholder='Username'
+                  error={authStore.hasErrors}
+                  value={this.state.username}
+                  onChange={(e) => this.setState({username: e.target.value})}
+                />
+                <Form.Input
+                  label='Password'
+                  type='password'
+                  error={authStore.hasErrors}
+                  value={this.state.password}
+                  onChange={(e) => this.setState({password: e.target.value})}
+                />
                 <Button fluid secondary type='submit' onClick={this.onLoginClick}>Login</Button>
               </Form>
             </Container>
