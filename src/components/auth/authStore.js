@@ -1,5 +1,6 @@
 import {computed, decorate, observable} from "mobx";
-// import history from "../../history";
+import history from "../../history";
+import api from "./api";
 
 class AuthStore {
 
@@ -13,12 +14,18 @@ class AuthStore {
   /* Actions. */
 
   login(username, password) {
-    // TODO: Handle actual authentication.
-    this.user = {token: "dummy"};
-    // TODO: Only do this if successful.
-    // history.push("/");
-    // TODO: Only do this if error.
-    this.error = "Invalid username or password."
+    api.getToken(username, password).then(response => {
+      this.user = {...response.data};
+      localStorage.setItem('token', this.user.token);
+      history.push("/");
+    }).catch(error => {
+      const errorData = error.response.data;
+      if (errorData.non_field_errors && errorData.non_field_errors.length === 1) {
+        this.error = errorData.non_field_errors[0];
+      } else {
+        this.error = "Could not log in. Try again later.";
+      }
+    });
   }
 
   logout() {
