@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {Dropdown, Input, Menu} from "semantic-ui-react";
 import {observer} from "mobx-react";
 
-const MissionFilters = observer(class MissionFilters extends Component {
+class MissionFilters extends Component {
 
   static propTypes = {
     missionsStore: PropTypes.object.isRequired
@@ -94,6 +94,6 @@ const MissionFilters = observer(class MissionFilters extends Component {
     );
   }
 
-});
+}
 
-export default MissionFilters;
+export default observer(MissionFilters);

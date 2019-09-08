@@ -9,7 +9,7 @@ import MissionFilters from "./MissionFilters";
 import MissionCard from "./MissionCard";
 import MissionsUtils from "./missionsUtils";
 
-const MissionList = observer(class MissionList extends Component {
+class MissionList extends Component {
 
   constructor(props) {
     super(props);
@@ -66,6 +66,6 @@ const MissionList = observer(class MissionList extends Component {
     );
   }
 
-});
+}
 
-export default MissionList;
+export default observer(MissionList);
