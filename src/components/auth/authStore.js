@@ -11,6 +11,11 @@ class AuthStore {
 
   /* Constructor. */
 
+  constructor() {
+    const token = localStorage.getItem("token");
+    if (token) this.user = {token};
+  }
+
   /* Actions. */
 
   login(username, password) {
