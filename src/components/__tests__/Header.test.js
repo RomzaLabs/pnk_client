@@ -10,8 +10,8 @@ beforeEach(() =>{
 });
 
 it('has a link to the homepage', () => {
-  const firstLinkTo = wrapped.find(Link).get(0).props.to;
-  expect(firstLinkTo).toEqual("/");
+  const firstLinkName = wrapped.find(Menu.Item).get(0).props.name;
+  expect(firstLinkName).toEqual("home");
 });
 
 it('has a link to the missions app', () => {
