@@ -1,54 +1,82 @@
-import React, {useState} from 'react';
+import React, {Component} from 'react';
+import {observer} from 'mobx-react';
 import './css/Header.css';
 import {Container, Image, Menu} from 'semantic-ui-react';
 import history from "../history";
+import authStore from "./auth/authStore";
 
-const Header = () => {
-  const [currentPage, setCurrentPage] = useState('missions');
+class Header extends Component {
 
-  return (
-    <Container>
-      <Menu stackable>
-        <Menu.Item onClick={() => history.push("/")}>
-          <Image src='/images/PurNKleen_logo.png' size='tiny'/>
-        </Menu.Item>
+  state = {currentPage: "missions"};
 
-        <Menu.Item
-          name='missions'
-          active={currentPage === 'missions'}
-          onClick={() => {
-            setCurrentPage('missions')
-            history.push("/");
-          }}
-        >
-          Missions
-        </Menu.Item>
+  renderLoginButton() {
+    return (
+      <Menu.Item
+        name='login'
+        active={this.state.currentPage === 'login'}
+        onClick={() => {
+          this.setState({currentPage: 'login'});
+          history.push("/login");
+        }}
+      >
+        Log In
+      </Menu.Item>
+    );
+  };
 
-        <Menu.Menu position='right'>
+  renderLogoutButton = () => {
+    return (
+      <Menu.Item
+        name='logout'
+        active={this.state.currentPage === 'logout'}
+        onClick={() => {
+          this.setState({currentPage: 'missions'});
+          authStore.logout();
+        }}
+      >
+        Log Out
+      </Menu.Item>
+    );
+  };
+
+
+  render() {
+    return (
+      <Container>
+        <Menu stackable>
+          <Menu.Item onClick={() => history.push("/")}>
+            <Image src='/images/PurNKleen_logo.png' size='tiny'/>
+          </Menu.Item>
+
           <Menu.Item
-            name='login'
-            active={currentPage === 'login'}
+            name='missions'
+            active={this.state.currentPage === 'missions'}
             onClick={() => {
-              setCurrentPage('login');
-              history.push("/login");
+              this.setState({currentPage: 'missions'});
+              history.push("/");
             }}
           >
-            Log In
+            Missions
           </Menu.Item>
 
-          <Menu.Item
-            name='signup'
-            active={currentPage === 'signup'}
-            onClick={() => setCurrentPage('signup')}
-            href='https://robertsspaceindustries.com/orgs/PNK'
-            target='_blank'
-          >
-            Join Us
-          </Menu.Item>
-        </Menu.Menu>
-      </Menu>
-    </Container>
-  );
-};
+          <Menu.Menu position='right'>
+            {authStore.isLoggedIn ? this.renderLogoutButton() : this.renderLoginButton()}
 
-export default Header;
+            <Menu.Item
+              name='signup'
+              active={this.state.currentPage === 'signup'}
+              onClick={() => this.setState({currentPage: 'signup'})}
+              href='https://robertsspaceindustries.com/orgs/PNK'
+              target='_blank'
+            >
+              Join Us
+            </Menu.Item>
+          </Menu.Menu>
+        </Menu>
+      </Container>
+    );
+  }
+
+}
+
+export default observer(Header);
