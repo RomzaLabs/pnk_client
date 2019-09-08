@@ -34,8 +34,9 @@ class AuthStore {
   }
 
   logout() {
-    // TODO: Remove token from local Storage.
-    // TODO: Redirect user to homepage
+    this.user = null;
+    localStorage.removeItem("token");
+    history.push("/");
   }
 
   /* Computed Properties. */
