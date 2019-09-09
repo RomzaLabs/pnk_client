@@ -13,7 +13,8 @@ class AuthStore {
 
   constructor() {
     const token = localStorage.getItem("token");
-    if (token) this.user = {token};
+    const username = localStorage.getItem("username");
+    if (token) this.user = {token, username};
   }
 
   /* Actions. */
@@ -21,7 +22,8 @@ class AuthStore {
   login(username, password) {
     api.getToken(username, password).then(response => {
       this.user = {...response.data};
-      localStorage.setItem('token', this.user.token);
+      localStorage.setItem("token", this.user.token);
+      localStorage.setItem("username", username);
       history.push("/");
     }).catch(error => {
       const errorData = error.response.data;
@@ -36,6 +38,7 @@ class AuthStore {
   logout() {
     this.user = null;
     localStorage.removeItem("token");
+    localStorage.removeItem("username");
     history.push("/");
   }
 

@@ -1,5 +1,6 @@
 import {action, decorate, observable} from "mobx";
 import {dummyMissions} from "./dummyMissions";
+import usersApi from "../users/api";
 
 const MISSIONS_PER_PAGE = 10;
 
@@ -7,6 +8,7 @@ class MissionsStore {
 
   /* Observable Properties. */
 
+  user = null;
   missions = [];
   filteredMissions = [];
   selectedMission = null;
@@ -35,6 +37,23 @@ class MissionsStore {
   /* Constructor. */
 
   /* Actions. */
+
+  setUser() {
+    const username = localStorage.getItem("username");
+    usersApi.getUser(username)
+      .then(response => {
+        this.user = response.data;
+      })
+      .catch(err => {
+        console.error(err);
+        this.clearUser();
+      });
+  }
+
+  clearUser() {
+    console.log("Clearing user");
+    this.user = null;
+  }
 
   getMissions() {
     // Faking API request.
@@ -203,6 +222,7 @@ class MissionsStore {
 }
 
 decorate(MissionsStore, {
+  user: observable,
   missions: observable,
   selectedMission: observable,
   clearSelectedMission: observable,
@@ -224,6 +244,8 @@ decorate(MissionsStore, {
   locations: observable,
   filterLocations: observable,
   selectedLocations: observable,
+  setUser: action,
+  clearUser: action,
   getMissions: action,
   setCategories: action,
   setStatuses: action,
