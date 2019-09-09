@@ -26,11 +26,13 @@ class AuthStore {
       localStorage.setItem("username", username);
       history.push("/");
     }).catch(error => {
-      const errorData = error.response.data;
-      if (errorData.non_field_errors && errorData.non_field_errors.length === 1) {
-        this.error = errorData.non_field_errors[0];
+      if (!error.response) {
+        this.error = "Network Error. Please contact us on our Discord server.";
       } else {
-        this.error = "Could not log in. Try again later.";
+        const errorData = error.response && error.response.data;
+        if (errorData.non_field_errors && errorData.non_field_errors.length === 1) {
+          this.error = errorData.non_field_errors[0];
+        }
       }
     });
   }
