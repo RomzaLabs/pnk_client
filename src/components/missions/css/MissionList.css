@@ -73,3 +73,13 @@
 .mission-list.search {
   height: 2.71428571em;
 }
+
+.create-mission-container {
+  margin-bottom: 2em;
+}
+
+.ui.create-mission-btn {
+  font-family: 'Furore', 'sans-serif';
+  font-size: large;
+  letter-spacing: 0.1em;
+}
