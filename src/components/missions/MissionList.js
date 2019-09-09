@@ -1,6 +1,6 @@
 import './css/MissionList.css';
 import React, {Component} from 'react';
-import { Container, Card } from 'semantic-ui-react';
+import {Container, Card, Button} from 'semantic-ui-react';
 import MissionsStore from './missionsStore';
 import {observer} from 'mobx-react';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -8,6 +8,7 @@ import MissionModal from "./MissionModal";
 import MissionFilters from "./MissionFilters";
 import MissionCard from "./MissionCard";
 import MissionsUtils from "./missionsUtils";
+import authStore from "../auth/authStore";
 
 class MissionList extends Component {
 
@@ -15,6 +16,14 @@ class MissionList extends Component {
     super(props);
     this.missionsStore = new MissionsStore();
     this.missionsStore.getMissions(); // Loads the first 10 missions.
+  }
+
+  componentDidMount() {
+    if (authStore.isLoggedIn) {
+      this.missionsStore.setUser();
+    } else {
+      this.missionsStore.clearUser();
+    }
   }
 
   renderMissionCards() {
@@ -41,6 +50,15 @@ class MissionList extends Component {
     }
   }
 
+  renderCreateMissionButton(userType) {
+    if (userType !== "MEM") return undefined;
+    return (
+      <Container textAlign='right' className="create-mission-container">
+        <Button color="yellow" inverted className="create-mission-btn" >Create Mission</Button>
+      </Container>
+    );
+  }
+
   render() {
     const menu = <MissionFilters missionsStore={this.missionsStore} />;
     const cards = this.renderMissionCards();
@@ -49,9 +67,13 @@ class MissionList extends Component {
       modal = <MissionModal missionsStore={this.missionsStore} onClose={this.clearSelectedMission} />;
     }
 
+    const userType = authStore.isLoggedIn && this.missionsStore.user && this.missionsStore.user.user_type;
+    const createMissionButton = this.renderCreateMissionButton(userType);
+
     return (
       <Container className="content">
         {menu}
+        {createMissionButton}
         <InfiniteScroll
           initialLoad={false}
           loadMore={() => this.loadMore()}
