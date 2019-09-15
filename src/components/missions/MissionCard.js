@@ -18,13 +18,13 @@ class MissionCard extends Component {
 
   render() {
     const mission = this.mission;
-    const {id, name, status, date} = mission;
-    const colorStatus = MissionsUtils.getColorStatus(status);
+    const {id, name, mission_status, mission_date} = mission;
+    const colorStatus = MissionsUtils.getColorStatus(mission_status);
     const imageURL = MissionsUtils.getImageURL(mission);
     const userCount = MissionsUtils.getUserCount(mission);
 
     const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
-    const dateM = moment.tz(date, timezone);
+    const dateM = moment.tz(mission_date, timezone);
     const dateStr = dateM.format('DD.MMM.YYYY LT z');
     const countdown = MissionsUtils.getCountdown(dateM);
 
