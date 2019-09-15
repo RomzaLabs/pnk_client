@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Dropdown, Input, Menu} from "semantic-ui-react";
 import {observer} from "mobx-react";
+import {MISSION_CATEGORIES, MISSION_STATUSES} from "./types";
 
 class MissionFilters extends Component {
 
@@ -47,8 +48,8 @@ class MissionFilters extends Component {
           <Dropdown placeholder='Category'
                     clearable
                     selection
-                    options={categories.map(x => {
-                      return {key: x, text: x, value: x};
+                    options={categories.map(category => {
+                      return {key: category, text: MISSION_CATEGORIES[category], value: category};
                     })}
                     onChange={this.onCategoryChange}
           />
@@ -57,8 +58,8 @@ class MissionFilters extends Component {
           <Dropdown placeholder='Status'
                     clearable
                     selection
-                    options={statuses.map(x => {
-                      return {key: x, text: x, value: x};
+                    options={statuses.map(status => {
+                      return {key: status, text: MISSION_STATUSES[status], value: status};
                     })}
                     onChange={this.onStatusChange}
           />
