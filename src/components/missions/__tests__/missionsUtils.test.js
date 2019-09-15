@@ -1,8 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import MissionsUtils from '../missionsUtils';
-import {ACTIVE_MISSION, FAILED_MISSION, SUCCESSFUL_MISSION} from "../types";
-import {dummyMissions} from "../dummyMissions";
+import {dummyMissions} from "./dummyMissions";
 
 let mission0;
 let mission1;
@@ -18,9 +17,9 @@ it('can render a loader', () => {
 });
 
 it("can get active_mission status", () => {
-  const active_color = MissionsUtils.getColorStatus(ACTIVE_MISSION);
-  const successful_color = MissionsUtils.getColorStatus(SUCCESSFUL_MISSION);
-  const failed_color = MissionsUtils.getColorStatus(FAILED_MISSION);
+  const active_color = MissionsUtils.getColorStatus('ACT');
+  const successful_color = MissionsUtils.getColorStatus('SUC');
+  const failed_color = MissionsUtils.getColorStatus('FAI');
   const default_color = MissionsUtils.getColorStatus("xxx");
   expect(active_color).toEqual("yellow");
   expect(successful_color).toEqual("green");
@@ -33,7 +32,7 @@ it("can get image URL", () => {
   expect(actualImageURLForFeature).toEqual("https://i.redd.it/c0bossg1slw21.png");
 
   const actualImageURLForNonFeature = MissionsUtils.getImageURL(mission0);
-  expect(actualImageURLForNonFeature).toEqual("/images/missions/exploration_category.png");
+  expect(actualImageURLForNonFeature).toEqual("/images/missions/otherq_category.png");
 });
 
 it("can render a mission header", () => {
@@ -64,12 +63,12 @@ it("can render mission participants", () => {
   const missionParticipants = MissionsUtils.renderMissionParticipants(mission0);
   const rsvps = mount(missionParticipants).get(1);
   const attendees = mount(missionParticipants).get(3);
-  expect(mount(rsvps).render().text()).toContain("AxorCoffTar Garyen");
-  expect(mount(attendees).render().text()).toContain("Coff");
+  expect(mount(rsvps).render().text()).toContain("3786b93a-30ea-447a-a2b7-3bdb187ead6d");
+  expect(mount(attendees).render().text()).toContain("3786b93a-30ea-447a-a2b7-3bdb187ead6d");
 });
 
 it("can render users", () => {
-  const users = mission0.rsvpUsers;
+  const users = mission0.rsvp_users;
   const userRender = MissionsUtils.renderUser(users);
   expect(userRender.length).toEqual(3);
 });
