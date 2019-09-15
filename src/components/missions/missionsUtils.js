@@ -62,11 +62,12 @@ class MissionsUtils {
     }
   }
 
-  static renderMissionHeader(mission) {
+  static renderMissionHeader(mission, loadedUsers) {
     const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
     const date = moment.tz(mission.mission_date, timezone);
     const dateStr = date.format('DD.MMM.YYYY LT z');
     const mediaItems = this.renderMediaItems(mission);
+    const commanderUsername = loadedUsers.find(u => u.id === mission.commander).username;
 
     return (
       <Fragment>
@@ -96,7 +97,7 @@ class MissionsUtils {
                   <List.Item>
                     <Image avatar src='/images/avatar/generic.png' />
                     <List.Content>
-                      <List.Header>{mission.commander}</List.Header>
+                      <List.Header>{ commanderUsername }</List.Header>
                     </List.Content>
                   </List.Item>
                 </List>
