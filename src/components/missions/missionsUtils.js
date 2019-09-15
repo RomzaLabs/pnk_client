@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import {Button, Dimmer, Header, Image, List, Loader, Table} from "semantic-ui-react";
 import moment from "moment-timezone";
 import Countdown from "react-countdown-now";
+import {MISSION_STATUSES, MISSION_CATEGORIES} from "./types";
 
 class MissionsUtils {
 
@@ -78,11 +79,11 @@ class MissionsUtils {
             </Table.Row>
             <Table.Row>
               <Table.Cell>Status</Table.Cell>
-              <Table.Cell>{mission.mission_status}</Table.Cell>
+              <Table.Cell>{MISSION_STATUSES[mission.mission_status]}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell width={2}>Category</Table.Cell>
-              <Table.Cell>{mission.category}</Table.Cell>
+              <Table.Cell>{MISSION_CATEGORIES[mission.category]}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Location</Table.Cell>
