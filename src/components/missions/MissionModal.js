@@ -27,7 +27,7 @@ class MissionModal extends Component {
     const missionDescription = MissionsUtils.renderMissionDescription(mission);
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
-    const participants = MissionsUtils.renderMissionParticipants(mission);
+    const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
     const rsvpButton = MissionsUtils.renderRSVPButton();
 
     return (

@@ -146,9 +146,9 @@ class MissionsUtils {
     );
   }
 
-  static renderMissionParticipants(mission) {
-    const rsvpUsers = this.renderUser(mission.rsvp_users);
-    const attendedUsers = this.renderUser(mission.attended_users);
+  static renderMissionParticipants(mission, loadedUsers) {
+    const rsvpUsers = this.renderUser(mission.rsvp_users, loadedUsers);
+    const attendedUsers = this.renderUser(mission.attended_users, loadedUsers);
     return (
       <Fragment>
         <Header size="large">Mission RSVPs</Header>
@@ -164,13 +164,13 @@ class MissionsUtils {
     );
   }
 
-  static renderUser(users) {
+  static renderUser(users, loadedUsers) {
     return users.map(user => {
       return (
         <List.Item key={user}>
           <Image avatar src='/images/avatar/generic.png' />
           <List.Content>
-            <List.Header>{user}</List.Header>
+            <List.Header>{loadedUsers.find(u => u.id === user).username}</List.Header>
           </List.Content>
         </List.Item>
       );
