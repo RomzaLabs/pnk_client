@@ -1,8 +1,8 @@
 import apiClient from "../../apiClient";
 
 export default {
-  getMissions: () => {
-    return apiClient.get("/api/v1/missions/");
+  getMissions: (page = 1) => {
+    return apiClient.get(`/api/v1/missions/?page=${page}`);
   },
   getMission: (id) => {
     return apiClient.get(`/api/v1/missions/${id}/`);
