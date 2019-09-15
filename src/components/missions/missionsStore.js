@@ -1,8 +1,7 @@
 import {action, decorate, observable} from "mobx";
-import {dummyMissions} from "./dummyMissions";
 import usersApi from "../users/api";
+import missionsApi from "./api";
 
-const MISSIONS_PER_PAGE = 10;
 
 class MissionsStore {
 
@@ -12,7 +11,7 @@ class MissionsStore {
   missions = [];
   filteredMissions = [];
   selectedMission = null;
-  currentPage = 0;
+  currentPage = 1;
   hasMore = true;
   loading = false;
   isFiltered = false;
@@ -56,12 +55,12 @@ class MissionsStore {
   }
 
   getMissions() {
-    // Faking API request.
-    const startIndex = (this.currentPage * MISSIONS_PER_PAGE);
-    const endIndex = (startIndex + MISSIONS_PER_PAGE);
-    const missionsToAdd = dummyMissions.slice(startIndex, endIndex);
     this.loading = true;
-    setTimeout(() => this.setDelayedMission(missionsToAdd), 1000);
+    missionsApi.getMissions(this.currentPage).then(response => {
+      const results = response.data.results;
+      const next = response.data.next;
+      this.setMissions(results, next);
+    });
   }
 
   setSelectedMission(mission) {
@@ -106,7 +105,7 @@ class MissionsStore {
   }
 
   setStatuses(missions) {
-    const statuses = missions.map(mission => mission.status);
+    const statuses = missions.map(mission => mission.mission_status);
     const sortedStatuses = [...new Set(statuses.sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0))];
     if (this.isFiltered) {
       this.filterStatuses = sortedStatuses;
@@ -116,10 +115,9 @@ class MissionsStore {
   }
 
   setParticipants(missions) {
-    const commanders = missions.map(mission => mission.commander.username);
+    const commanders = missions.map(mission => mission.commander);
     // flatMap is not supported in Jest when unit testing... sigh...
-    // const rsvpUsers = missions.flatMap(mission => mission.rsvpUsers.map(user => user.username));
-    const rsvpUsers = missions.reduce((acc, mission) => acc.concat(mission.rsvpUsers.map(user => user.username)), []);
+    const rsvpUsers = missions.reduce((acc, mission) => acc.concat(mission.rsvp_users), []);
     const combinedUsers = commanders.concat(rsvpUsers).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
     const participants = [...new Set(combinedUsers)];
     if (this.isFiltered) {
@@ -173,10 +171,10 @@ class MissionsStore {
         const description = mission.description.toLowerCase();
         const briefing = mission.briefing.toLowerCase();
         const debriefing = mission.debriefing.toLowerCase();
-        const participants = [...mission.rsvpUsers.map(user => user.username), mission.commander.username];
+        const participants = [...mission.rsvp_users, mission.commander];
 
         if (this.selectedCategories.length && !this.selectedCategories.includes(mission.category)) return false;
-        if (this.selectedStatuses.length && !this.selectedStatuses.includes(mission.status)) return false;
+        if (this.selectedStatuses.length && !this.selectedStatuses.includes(mission.mission_status)) return false;
         if (this.selectedParticipants.length && !participants.includes(this.selectedParticipants)) return false;
         if (this.selectedLocations.length && !this.selectedLocations.includes(mission.location)) return false;
 
@@ -203,21 +201,21 @@ class MissionsStore {
 
   /* Helpers. */
 
-  // Mocking an API request for now.
-  setDelayedMission = (missionsToAdd) => {
-    if (missionsToAdd.length === MISSIONS_PER_PAGE) {
+  setMissions = (missionsToAdd, next) => {
+    if (next) {
       this.hasMore = true;
       this.currentPage += 1;
     } else {
       this.hasMore = false;
     }
+
     this.missions = this.missions.concat(missionsToAdd);
     this.setCategories(this.missions);
     this.setStatuses(this.missions);
     this.setParticipants(this.missions);
     this.setLocations(this.missions);
     this.loading = false;
-  }
+  };
 
 }
 

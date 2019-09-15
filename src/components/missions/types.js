@@ -1,9 +1,23 @@
-export const ACTIVE_MISSION = 'Active';
-export const SUCCESSFUL_MISSION = 'Successful';
-export const FAILED_MISSION = 'Failed';
+export const MISSION_STATUSES = {
+  'ACT': 'Active',
+  'FAI': 'Failed',
+  'SUC': 'Successful'
+};
 
-export const EXPLORATION_CATEGORY = 'Exploration';
-export const MISSION_CATEGORY = 'Mission Running';
-export const MINING_CATEGORY = 'Mining';
-export const COMMUNITY_CATEGORY = 'Community';
-export const OTHER_CATEGORY = 'Other';
+export const MISSION_CATEGORIES = {
+  'HUN': 'Bounty Hunting',
+  'ENG': 'Engineering',
+  'EXP': 'Exploration',
+  'FRE': 'Freelancing',
+  'INF': 'Infiltration',
+  'PIR': 'Piracy',
+  'RES': 'Resources',
+  'SCO': 'Scouting',
+  'SEC': 'Security',
+  'SMU': 'Smuggling',
+  'SOC': 'Social',
+  'TRD': 'Trading',
+  'TRA': 'Training',
+  'TRN': 'Transport',
+  'XXX': 'Top Secret'
+};

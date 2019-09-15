@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Image, Modal} from "semantic-ui-react";
 import PropTypes from 'prop-types';
 import MissionsUtils from "./missionsUtils";
+import userStore from "../users/userStore";
+import {toJS} from "mobx";
 
 class MissionModal extends Component {
 
@@ -20,11 +22,12 @@ class MissionModal extends Component {
     const mission = this.missionsStore.selectedMission;
     if (!mission) return undefined;
 
-    const missionHeader = MissionsUtils.renderMissionHeader(mission);
+    const loadedUsers = !userStore.loading ? toJS(userStore.users) : [];
+    const missionHeader = MissionsUtils.renderMissionHeader(mission, loadedUsers);
     const missionDescription = MissionsUtils.renderMissionDescription(mission);
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
-    const participants = MissionsUtils.renderMissionParticipants(mission);
+    const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
     const rsvpButton = MissionsUtils.renderRSVPButton();
 
     return (

@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import MissionModal from "../MissionModal";
 import {Modal} from "semantic-ui-react";
 import MissionsStore from "../missionsStore";
-import {dummyMissions} from "../dummyMissions";
+import {dummyMissions} from "./dummyMissions";
 
 let wrapped;
 beforeEach(() => {

@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {Dropdown, Input, Menu} from "semantic-ui-react";
 import {observer} from "mobx-react";
+import {toJS} from "mobx";
+import {MISSION_CATEGORIES, MISSION_STATUSES} from "./types";
+import userStore from "../users/userStore";
 
 class MissionFilters extends Component {
 
@@ -40,6 +43,7 @@ class MissionFilters extends Component {
     const statuses = isFiltered ? this.missionsStore.filterStatuses : this.missionsStore.statuses;
     const participants = isFiltered ? this.missionsStore.filterParticipants : this.missionsStore.participants;
     const locations = isFiltered ? this.missionsStore.filterLocations : this.missionsStore.locations;
+    const loadedUsers = !userStore.loading ? toJS(userStore.users) : [];
 
     return (
       <Menu stackable widths={5} className='missionMenu'>
@@ -47,8 +51,8 @@ class MissionFilters extends Component {
           <Dropdown placeholder='Category'
                     clearable
                     selection
-                    options={categories.map(x => {
-                      return {key: x, text: x, value: x};
+                    options={categories.map(category => {
+                      return {key: category, text: MISSION_CATEGORIES[category], value: category};
                     })}
                     onChange={this.onCategoryChange}
           />
@@ -57,8 +61,8 @@ class MissionFilters extends Component {
           <Dropdown placeholder='Status'
                     clearable
                     selection
-                    options={statuses.map(x => {
-                      return {key: x, text: x, value: x};
+                    options={statuses.map(status => {
+                      return {key: status, text: MISSION_STATUSES[status], value: status};
                     })}
                     onChange={this.onStatusChange}
           />
@@ -67,8 +71,12 @@ class MissionFilters extends Component {
           <Dropdown placeholder='Participant'
                     clearable
                     selection
-                    options={participants.map(x => {
-                      return {key: x, text: x, value: x};
+                    options={participants.map(userId => {
+                      const user = loadedUsers.filter(u => u.id === userId);
+                      return {
+                        key: userId,
+                        text: user.length ? user[0].username : "N/A",
+                        value: userId};
                     })}
                     onChange={this.onParticipantChange}
           />

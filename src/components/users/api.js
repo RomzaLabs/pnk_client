@@ -4,7 +4,7 @@ export default {
   getUser: (username) => {
     return apiClient.get(`/api/v1/users/${username}/`);
   },
-  getUsers: () => {
-    return apiClient.get("/api/v1/users/");
+  getUsers: (page = 1) => {
+    return apiClient.get(`/api/v1/users/?page=${page}`);
   }
 }
