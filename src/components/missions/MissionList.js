@@ -9,6 +9,7 @@ import MissionFilters from "./MissionFilters";
 import MissionCard from "./MissionCard";
 import MissionsUtils from "./missionsUtils";
 import authStore from "../auth/authStore";
+import MissionCreateModal from "./MissionCreateModal";
 
 class MissionList extends Component {
 
@@ -44,6 +45,10 @@ class MissionList extends Component {
     this.missionsStore.clearSelectedMission();
   };
 
+  clearCreatedMission = () => {
+    this.missionsStore.clearCreatedMission();
+  };
+
   loadMore() {
     if (this.missionsStore && this.missionsStore.loading === false) {
       this.missionsStore.getMissions();
@@ -54,17 +59,25 @@ class MissionList extends Component {
     if (userType !== "MEM") return undefined;
     return (
       <Container textAlign='right' className="create-mission-container">
-        <Button color="yellow" inverted className="create-mission-btn" >Create Mission</Button>
+        <Button color="yellow" inverted className="create-mission-btn" onClick={this.handleCreateMission} >Create Mission</Button>
       </Container>
     );
   }
+
+  handleCreateMission = () => {
+    this.missionsStore.initNewMission();
+  };
 
   render() {
     const menu = <MissionFilters missionsStore={this.missionsStore} />;
     const cards = this.renderMissionCards();
     let modal;
+    let missionCreateModal;
     if (this.missionsStore.selectedMission) {
       modal = <MissionModal missionsStore={this.missionsStore} onClose={this.clearSelectedMission} />;
+    }
+    if (this.missionsStore.createdMission) {
+      missionCreateModal = <MissionCreateModal missionsStore={this.missionsStore} onClose={this.clearCreatedMission} />;
     }
 
     const userType = authStore.isLoggedIn && this.missionsStore.user && this.missionsStore.user.user_type;
@@ -84,6 +97,7 @@ class MissionList extends Component {
           </Card.Group>
         </InfiniteScroll>
         {modal}
+        {missionCreateModal}
       </Container>
     );
   }
