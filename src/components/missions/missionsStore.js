@@ -1,6 +1,7 @@
 import {action, decorate, observable} from "mobx";
 import usersApi from "../users/api";
 import missionsApi from "./api";
+import authStore from "../auth/authStore";
 
 
 class MissionsStore {
@@ -32,6 +33,8 @@ class MissionsStore {
   locations = [];
   filterLocations = [];
   selectedLocations = [];
+
+  createdMission = null;
 
   /* Constructor. */
 
@@ -197,6 +200,34 @@ class MissionsStore {
     this.setLocations(missions);
   }
 
+  setCreatedMission(mission) {
+    this.createdMission = mission;
+  }
+
+  clearCreatedMission() {
+    this.createdMission = null;
+  }
+
+  initNewMission() {
+    const mission = {
+      name: '', // required
+      description: '', // required
+      category: '', // required
+      location: '', // required
+      mission_date: '', // required, 2019-09-13T21:53:00+0000
+      mission_status: 'ACT', // required
+      commander: authStore.user.token, // required
+      discordURL: '',
+      videoURL: '',
+      feature_image: '',
+      briefing: '',
+      debriefing: '',
+      rsvp_users: [],
+      attended_users: []
+    };
+    this.setCreatedMission(mission);
+  }
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -242,6 +273,7 @@ decorate(MissionsStore, {
   locations: observable,
   filterLocations: observable,
   selectedLocations: observable,
+  createdMission: observable,
   setUser: action,
   clearUser: action,
   getMissions: action,
@@ -254,7 +286,10 @@ decorate(MissionsStore, {
   setSelectedCategories: action,
   setSelectedStatuses: action,
   setSelectedParticipants: action,
-  setSelectedLocations: action
+  setSelectedLocations: action,
+  setCreatedMission: action,
+  clearCreatedMission: action,
+  initNewMission: action
 });
 
 export default MissionsStore;
