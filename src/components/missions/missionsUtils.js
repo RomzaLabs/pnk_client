@@ -71,7 +71,6 @@ class MissionsUtils {
 
     return (
       <Fragment>
-        <Header size='huge'>{mission.name}</Header>
         <Table definition>
           <Table.Body>
             <Table.Row>
@@ -103,14 +102,7 @@ class MissionsUtils {
                 </List>
               </Table.Cell>
             </Table.Row>
-            <Table.Row>
-              <Table.Cell>Media</Table.Cell>
-              <Table.Cell>
-                <List>
-                  {mediaItems}
-                </List>
-              </Table.Cell>
-            </Table.Row>
+            {mediaItems}
           </Table.Body>
         </Table>
       </Fragment>
@@ -147,19 +139,34 @@ class MissionsUtils {
   }
 
   static renderMissionParticipants(mission, loadedUsers) {
-    const rsvpUsers = this.renderUser(mission.rsvp_users, loadedUsers);
-    const attendedUsers = this.renderUser(mission.attended_users, loadedUsers);
+    let rsvpRow = undefined;
+    if (mission.rsvp_users && mission.rsvp_users.length) {
+      rsvpRow = (
+        <Fragment>
+          <Header size="large">Mission RSVPs</Header>
+          <List horizontal ordered verticalAlign='middle'>
+            {this.renderUser(mission.rsvp_users, loadedUsers)}
+          </List>
+        </Fragment>
+      );
+    }
+
+    let attendeesRow = undefined;
+    if (mission.attended_users && mission.attended_users.length) {
+      attendeesRow = (
+        <Fragment>
+          <Header size="large">Mission Attendees</Header>
+          <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
+            {this.renderUser(mission.attended_users, loadedUsers)}
+          </List>
+        </Fragment>
+      );
+    }
+
     return (
       <Fragment>
-        <Header size="large">Mission RSVPs</Header>
-        <List horizontal ordered verticalAlign='middle'>
-          {rsvpUsers}
-        </List>
-
-        <Header size="large">Mission Attendees</Header>
-        <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
-          {attendedUsers}
-        </List>
+        {rsvpRow}
+        {attendeesRow}
       </Fragment>
     );
   }
@@ -196,17 +203,22 @@ class MissionsUtils {
 
     if (discordURL && videoURL) {
       return (
-        <Fragment>
-          {discordLink}
-          {twitchLink}
-        </Fragment>
+        <Table.Row>
+          <Table.Cell>Media</Table.Cell>
+          <Table.Cell>
+            <List>
+              {discordLink}
+              {twitchLink}
+            </List>
+          </Table.Cell>
+        </Table.Row>
       );
     } else if (discordURL) {
       return discordLink;
     } else if (videoURL) {
       return twitchLink;
     } else {
-      return <List.Item key="na" content='N/A' />;
+      return undefined;
     }
   }
 

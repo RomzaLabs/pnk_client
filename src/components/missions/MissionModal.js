@@ -32,9 +32,10 @@ class MissionModal extends Component {
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
+        <Modal.Header>{mission.name}</Modal.Header>
         <Modal.Content image scrolling>
           <Image size='medium' src={MissionsUtils.getImageURL(mission)} wrapped />
-          <Modal.Description>
+          <Modal.Description style={{flex: 3}}>
             {missionHeader}
             {missionDescription}
             {missionBriefing}
