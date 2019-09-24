@@ -31,3 +31,7 @@ body {
   font-family: 'Furore', 'sans-serif';
   font-size: 1.2rem;
 }
+
+.ui.large.modal > .header {
+  font-family: 'Furore', 'sans-serif';
+}
