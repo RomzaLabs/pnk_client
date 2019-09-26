@@ -2,6 +2,7 @@ import {action, decorate, observable} from "mobx";
 import usersApi from "../users/api";
 import missionsApi from "./api";
 import authStore from "../auth/authStore";
+import moment from "moment-timezone";
 
 
 class MissionsStore {
@@ -35,6 +36,7 @@ class MissionsStore {
   selectedLocations = [];
 
   createdMission = null;
+  createdMissionErrors = null;
 
   /* Constructor. */
 
@@ -214,9 +216,11 @@ class MissionsStore {
       description: '', // required
       category: '', // required
       location: '', // required
+      date: '',
+      time: '',
       mission_date: '', // required, 2019-09-13T21:53:00+0000
       mission_status: 'ACT', // required
-      commander: authStore.user.token, // required
+      commander: '', // required
       discordURL: '',
       videoURL: '',
       feature_image: '',
@@ -226,6 +230,32 @@ class MissionsStore {
       attended_users: []
     };
     this.setCreatedMission(mission);
+  }
+
+  submitNewMission = () => {
+    let mission_date;
+    if (this.createdMission.date && this.createdMission.time) {
+      const timezone = moment.tz.guess();
+      mission_date = moment.tz(this.createdMission.date + " " + this.createdMission.time, timezone).format();
+    }
+    const mission = {...this.createdMission, mission_date, commander: authStore.user.uuid};
+    return missionsApi.createMission(mission)
+      .then(response => {
+        this.createdMissionErrors = null;
+        console.log(response.data)
+      })
+      .catch((error) => {
+        if (error.response.status === 400) {
+          const formErrors = error.response.data;
+          this.setCreatedMissionErrors(formErrors);
+        } else {
+          console.error(error);
+        }
+      });
+  };
+
+  setCreatedMissionErrors(errors) {
+    this.createdMissionErrors = errors;
   }
 
   /* Computed Properties. */
@@ -274,6 +304,7 @@ decorate(MissionsStore, {
   filterLocations: observable,
   selectedLocations: observable,
   createdMission: observable,
+  createdMissionErrors: observable,
   setUser: action,
   clearUser: action,
   getMissions: action,
@@ -289,7 +320,8 @@ decorate(MissionsStore, {
   setSelectedLocations: action,
   setCreatedMission: action,
   clearCreatedMission: action,
-  initNewMission: action
+  initNewMission: action,
+  submitNewMission: action
 });
 
 export default MissionsStore;
