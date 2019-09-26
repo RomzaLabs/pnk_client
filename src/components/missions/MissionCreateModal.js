@@ -39,6 +39,11 @@ class MissionCreateModal extends Component {
                   const createdMission = this.missionsStore.createdMission;
                   this.missionsStore.setCreatedMission({...createdMission, name: e.target.value});
                 }}
+                error={
+                  this.missionsStore.createdMissionErrors
+                  && this.missionsStore.createdMissionErrors.name
+                  && this.missionsStore.createdMissionErrors.name.length > 0
+                }
               />
               <Form.TextArea
                 required
@@ -49,6 +54,11 @@ class MissionCreateModal extends Component {
                   const createdMission = this.missionsStore.createdMission;
                   this.missionsStore.setCreatedMission({...createdMission, description: e.target.value});
                 }}
+                error={
+                  this.missionsStore.createdMissionErrors
+                  && this.missionsStore.createdMissionErrors.description
+                  && this.missionsStore.createdMissionErrors.description.length > 0
+                }
               />
               <Form.Group widths='equal'>
                 <Form.Select
@@ -62,6 +72,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, category: value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.category
+                    && this.missionsStore.createdMissionErrors.category.length > 0
+                  }
                 />
                 <Form.Input
                   required
@@ -73,6 +88,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, location: e.target.value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.location
+                    && this.missionsStore.createdMissionErrors.location.length > 0
+                  }
                 />
               </Form.Group>
               <Form.Group widths='equal'>
@@ -86,6 +106,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, date: value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.mission_date
+                    && this.missionsStore.createdMissionErrors.mission_date.length > 0
+                  }
                 />
                 <Form.Input
                   required
@@ -97,6 +122,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, time: value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.mission_date
+                    && this.missionsStore.createdMissionErrors.mission_date.length > 0
+                  }
                 />
               </Form.Group>
               <Form.Group widths='equal'>
@@ -110,6 +140,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, feature_image: e.target.value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.feature_image
+                    && this.missionsStore.createdMissionErrors.feature_image.length > 0
+                  }
                 />
                 <Form.Input
                   fluid
@@ -121,6 +156,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, discordURL: e.target.value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.discordURL
+                    && this.missionsStore.createdMissionErrors.discordURL.length > 0
+                  }
                 />
                 <Form.Input
                   fluid
@@ -132,6 +172,11 @@ class MissionCreateModal extends Component {
                     const createdMission = this.missionsStore.createdMission;
                     this.missionsStore.setCreatedMission({...createdMission, videoURL: e.target.value});
                   }}
+                  error={
+                    this.missionsStore.createdMissionErrors
+                    && this.missionsStore.createdMissionErrors.videoURL
+                    && this.missionsStore.createdMissionErrors.videoURL.length > 0
+                  }
                 />
               </Form.Group>
               <Form.TextArea
@@ -143,6 +188,11 @@ class MissionCreateModal extends Component {
                   const createdMission = this.missionsStore.createdMission;
                   this.missionsStore.setCreatedMission({...createdMission, briefing: e.target.value});
                 }}
+                error={
+                  this.missionsStore.createdMissionErrors
+                  && this.missionsStore.createdMissionErrors.briefing
+                  && this.missionsStore.createdMissionErrors.briefing.length > 0
+                }
               />
               <Form.TextArea
                 label="Mission Debriefing"
@@ -153,6 +203,11 @@ class MissionCreateModal extends Component {
                   const createdMission = this.missionsStore.createdMission;
                   this.missionsStore.setCreatedMission({...createdMission, debriefing: e.target.value});
                 }}
+                error={
+                  this.missionsStore.createdMissionErrors
+                  && this.missionsStore.createdMissionErrors.debriefing
+                  && this.missionsStore.createdMissionErrors.debriefing.length > 0
+                }
               />
             </Form>
           </Modal.Description>
