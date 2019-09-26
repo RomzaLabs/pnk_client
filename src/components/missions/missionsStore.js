@@ -240,9 +240,12 @@ class MissionsStore {
     }
     const mission = {...this.createdMission, mission_date, commander: authStore.user.uuid};
     return missionsApi.createMission(mission)
-      .then(response => {
+      .then(() => {
+        this.clearCreatedMission();
         this.createdMissionErrors = null;
-        console.log(response.data)
+        this.currentPage = 1;
+        this.missions = [];
+        this.getMissions();
       })
       .catch((error) => {
         if (error.response.status === 400) {
