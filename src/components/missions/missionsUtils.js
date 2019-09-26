@@ -113,7 +113,7 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Description</Header>
-        <p>{mission.description}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.description}</p>
       </Fragment>
     );
   }
@@ -123,7 +123,7 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Briefing</Header>
-        <p>{mission.briefing}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.briefing}</p>
       </Fragment>
     );
   }
@@ -133,7 +133,7 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Debriefing</Header>
-        <p>{mission.debriefing}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.debriefing}</p>
       </Fragment>
     );
   }
