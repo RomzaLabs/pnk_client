@@ -3,6 +3,7 @@ import {Image, Modal} from "semantic-ui-react";
 import PropTypes from 'prop-types';
 import MissionsUtils from "./missionsUtils";
 import userStore from "../users/userStore";
+import authStore from "../auth/authStore";
 import {toJS} from "mobx";
 
 class MissionModal extends Component {
@@ -19,6 +20,7 @@ class MissionModal extends Component {
 
   render() {
     const open = this.missionsStore.selectedMission !== null;
+    const user = authStore.user;
     const mission = this.missionsStore.selectedMission;
     if (!mission) return undefined;
 
@@ -28,7 +30,9 @@ class MissionModal extends Component {
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
-    const rsvpButton = MissionsUtils.renderRSVPButton();
+    const deleteButton = MissionsUtils.renderDeleteButton(mission, user);
+    const editButton = MissionsUtils.renderEditButton(mission, user);
+    const rsvpButton = MissionsUtils.renderRSVPButton(mission, user);
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
@@ -44,6 +48,8 @@ class MissionModal extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
+          {editButton}
+          {deleteButton}
           {rsvpButton}
         </Modal.Actions>
       </Modal>
