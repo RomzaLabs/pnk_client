@@ -24,9 +24,11 @@ class UserStore {
         this.currentPage = this.currentPage + 1;
         this.getUsers();
       } else {
-        const loggedInUsername = authStore.user.username;
+        const loggedInUsername = authStore.user ? authStore.user.username : "";
         const user = this.users.find(u => u.username === loggedInUsername);
-        authStore.setUserUUID(user.id);
+        if (user) {
+          authStore.setUserUUID(user.id);
+        }
         this.loading = false;
       }
     });

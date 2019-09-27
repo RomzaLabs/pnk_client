@@ -23,6 +23,7 @@ class MissionModal extends Component {
 
   renderDeleteButton = (mission, user) => {
     const { commander } = mission;
+    if (user === null) return undefined;
     if (user.uuid !== commander) return undefined;
     return <Button negative onClick={() => {this.setState({deleteConfirmOpen: true});}}>Delete</Button>
   };
@@ -51,6 +52,7 @@ class MissionModal extends Component {
 
   renderEditButton(mission, user) {
     const { commander } = mission;
+    if (user === null) return undefined;
     if (user.uuid !== commander) return undefined;
     return <Button primary onClick={this.onEditClick}>Edit</Button>
   }
@@ -65,6 +67,17 @@ class MissionModal extends Component {
     this.missionsStore.setEditMode(true);
   };
 
+  renderRSVPButton(mission, user) {
+    const { commander, rsvp_users } = mission;
+    if (user && user.uuid === commander) return undefined;
+    if (user && rsvp_users.includes(user.uuid)) return undefined;
+    return <Button positive onClick={this.onRSVPClick}>RSVP</Button>
+  }
+
+  onRSVPClick = () => {
+    console.log("Handle RSVP click");
+  };
+
   render() {
     const open = this.missionsStore.selectedMission !== null;
     const user = authStore.user;
@@ -77,9 +90,10 @@ class MissionModal extends Component {
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
+
     const deleteButton = this.renderDeleteButton(mission, user);
     const editButton = this.renderEditButton(mission, user);
-    const rsvpButton = MissionsUtils.renderRSVPButton(mission, user);
+    const rsvpButton = this.renderRSVPButton(mission, user);
     const deleteConfirm = this.renderDeleteConfirm();
 
     return (

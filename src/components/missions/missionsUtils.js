@@ -222,17 +222,6 @@ class MissionsUtils {
     }
   }
 
-  static renderRSVPButton(mission, user) {
-    const { commander, rsvp_users } = mission;
-    if (user.uuid === commander) return undefined;
-    if (rsvp_users.includes(user.uuid)) return undefined;
-    return <Button positive onClick={this.onRSVPClick}>RSVP</Button>
-  }
-
-  static onRSVPClick() {
-    console.log("Handle RSVP click");
-  }
-
 }
 
 export default MissionsUtils;
