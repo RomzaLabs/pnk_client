@@ -222,21 +222,11 @@ class MissionsUtils {
     }
   }
 
-  static renderEditButton(mission, user) {
-    const { commander } = mission;
-    if (user.uuid !== commander) return undefined;
-    return <Button primary onClick={this.onEditClick}>Edit</Button>
-  }
-
   static renderRSVPButton(mission, user) {
     const { commander, rsvp_users } = mission;
     if (user.uuid === commander) return undefined;
     if (rsvp_users.includes(user.uuid)) return undefined;
     return <Button positive onClick={this.onRSVPClick}>RSVP</Button>
-  }
-
-  static onEditClick() {
-    console.log("Handle RSVP click");
   }
 
   static onRSVPClick() {

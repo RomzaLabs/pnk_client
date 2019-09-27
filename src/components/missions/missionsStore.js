@@ -37,6 +37,7 @@ class MissionsStore {
 
   createdMission = null;
   createdMissionErrors = null;
+  editMode = false;
 
   /* Constructor. */
 
@@ -202,7 +203,15 @@ class MissionsStore {
     this.setLocations(missions);
   }
 
+  setEditMode(boolVal) {
+    this.editMode = boolVal;
+  }
+
   setCreatedMission(mission) {
+    if (mission.mission_date !== "") {
+      const momentDate = moment(mission.mission_date);
+      mission = {...mission, date: momentDate.format("YYYY-MM-DD"), time: momentDate.format("HH:mm"), mission_date: ""};
+    }
     this.createdMission = mission;
   }
 
@@ -232,6 +241,16 @@ class MissionsStore {
     this.setCreatedMission(mission);
   }
 
+  updateMission = (mission) => {
+    return missionsApi.updateMission(mission.id, mission).then(() => {
+      this.clearCreatedMission();
+      this.createdMissionErrors = null;
+      this.currentPage = 1;
+      this.missions = [];
+      this.getMissions();
+    });
+  };
+
   submitNewMission = () => {
     let mission_date;
     if (this.createdMission.date && this.createdMission.time) {
@@ -239,22 +258,27 @@ class MissionsStore {
       mission_date = moment.tz(this.createdMission.date + " " + this.createdMission.time, timezone).format();
     }
     const mission = {...this.createdMission, mission_date, commander: authStore.user.uuid};
-    return missionsApi.createMission(mission)
-      .then(() => {
-        this.clearCreatedMission();
-        this.createdMissionErrors = null;
-        this.currentPage = 1;
-        this.missions = [];
-        this.getMissions();
-      })
-      .catch((error) => {
-        if (error.response.status === 400) {
-          const formErrors = error.response.data;
-          this.setCreatedMissionErrors(formErrors);
-        } else {
-          console.error(error);
-        }
-      });
+
+    if (this.editMode) {
+      return this.updateMission(mission);
+    } else {
+      return missionsApi.createMission(mission)
+        .then(() => {
+          this.clearCreatedMission();
+          this.createdMissionErrors = null;
+          this.currentPage = 1;
+          this.missions = [];
+          this.getMissions();
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            const formErrors = error.response.data;
+            this.setCreatedMissionErrors(formErrors);
+          } else {
+            console.error(error);
+          }
+        });
+    }
   };
 
   setCreatedMissionErrors(errors) {
@@ -316,6 +340,7 @@ decorate(MissionsStore, {
   selectedLocations: observable,
   createdMission: observable,
   createdMissionErrors: observable,
+  editMode: observable,
   setUser: action,
   clearUser: action,
   getMissions: action,
@@ -333,7 +358,8 @@ decorate(MissionsStore, {
   clearCreatedMission: action,
   initNewMission: action,
   submitNewMission: action,
-  deleteMission: action
+  deleteMission: action,
+  setEditMode: action
 });
 
 export default MissionsStore;

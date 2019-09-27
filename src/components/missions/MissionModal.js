@@ -49,6 +49,22 @@ class MissionModal extends Component {
     );
   }
 
+  renderEditButton(mission, user) {
+    const { commander } = mission;
+    if (user.uuid !== commander) return undefined;
+    return <Button primary onClick={this.onEditClick}>Edit</Button>
+  }
+
+  onEditClick = () => {
+    // Clear the selected mission.
+    const selectedMission = this.missionsStore.selectedMission;
+    this.missionsStore.clearSelectedMission();
+
+    // Set the created mission
+    this.missionsStore.setCreatedMission(selectedMission);
+    this.missionsStore.setEditMode(true);
+  };
+
   render() {
     const open = this.missionsStore.selectedMission !== null;
     const user = authStore.user;
@@ -62,7 +78,7 @@ class MissionModal extends Component {
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
     const deleteButton = this.renderDeleteButton(mission, user);
-    const editButton = MissionsUtils.renderEditButton(mission, user);
+    const editButton = this.renderEditButton(mission, user);
     const rsvpButton = MissionsUtils.renderRSVPButton(mission, user);
     const deleteConfirm = this.renderDeleteConfirm();
 
