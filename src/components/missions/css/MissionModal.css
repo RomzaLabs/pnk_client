@@ -1,0 +1,12 @@
+.mission-delete > .actions > .primary {
+  background-color: #db2828;
+  color: #fff;
+  text-shadow: none;
+  background-image: none;
+}
+
+.mission-delete > .actions > .primary:hover {
+  background-color: #d01919;
+  color: #fff;
+  text-shadow: none;
+}

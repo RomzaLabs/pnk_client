@@ -1,5 +1,6 @@
+import './css/MissionModal.css';
 import React, { Component } from 'react';
-import {Image, Modal} from "semantic-ui-react";
+import {Button, Confirm, Image, Modal} from "semantic-ui-react";
 import PropTypes from 'prop-types';
 import MissionsUtils from "./missionsUtils";
 import userStore from "../users/userStore";
@@ -13,9 +14,39 @@ class MissionModal extends Component {
     onClose: PropTypes.func.isRequired
   };
 
+  state = { deleteConfirmOpen: false };
+
   constructor(props) {
     super(props);
     this.missionsStore = this.props.missionsStore;
+  }
+
+  renderDeleteButton = (mission, user) => {
+    const { commander } = mission;
+    if (user.uuid !== commander) return undefined;
+    return <Button negative onClick={() => {this.setState({deleteConfirmOpen: true});}}>Delete</Button>
+  };
+
+  onDeleteConfirmClose = () => {
+    this.setState({deleteConfirmOpen: false});
+  };
+
+  onDeleteClick = () => {
+    console.log("Handle delete");
+  };
+
+  renderDeleteConfirm() {
+    return (
+      <Confirm
+        className={"mission-delete"}
+        open={this.state.deleteConfirmOpen}
+        content="Are you sure you want to delete this mission?"
+        cancelButton='Never mind'
+        confirmButton="Delete"
+        onCancel={this.onDeleteConfirmClose}
+        onConfirm={this.onDeleteClick}
+      />
+    );
   }
 
   render() {
@@ -30,9 +61,10 @@ class MissionModal extends Component {
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
-    const deleteButton = MissionsUtils.renderDeleteButton(mission, user);
+    const deleteButton = this.renderDeleteButton(mission, user);
     const editButton = MissionsUtils.renderEditButton(mission, user);
     const rsvpButton = MissionsUtils.renderRSVPButton(mission, user);
+    const deleteConfirm = this.renderDeleteConfirm();
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
@@ -51,6 +83,7 @@ class MissionModal extends Component {
           {editButton}
           {deleteButton}
           {rsvpButton}
+          {deleteConfirm}
         </Modal.Actions>
       </Modal>
     );

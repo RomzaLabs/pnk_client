@@ -35,3 +35,7 @@ body {
 .ui.large.modal > .header {
   font-family: 'Furore', 'sans-serif';
 }
+
+.content {
+  color: black;
+}

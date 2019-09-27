@@ -222,12 +222,6 @@ class MissionsUtils {
     }
   }
 
-  static renderDeleteButton(mission, user) {
-    const { commander } = mission;
-    if (user.uuid !== commander) return undefined;
-    return <Button negative onClick={this.onDeleteClick}>Delete</Button>
-  }
-
   static renderEditButton(mission, user) {
     const { commander } = mission;
     if (user.uuid !== commander) return undefined;
@@ -239,10 +233,6 @@ class MissionsUtils {
     if (user.uuid === commander) return undefined;
     if (rsvp_users.includes(user.uuid)) return undefined;
     return <Button positive onClick={this.onRSVPClick}>RSVP</Button>
-  }
-
-  static onDeleteClick() {
-    console.log("Handle Delete click");
   }
 
   static onEditClick() {
