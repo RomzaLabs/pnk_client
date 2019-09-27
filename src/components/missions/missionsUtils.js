@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {Button, Dimmer, Header, Image, List, Loader, Table} from "semantic-ui-react";
+import {Dimmer, Header, Image, List, Loader, Table} from "semantic-ui-react";
 import moment from "moment-timezone";
 import Countdown from "react-countdown-now";
 import {MISSION_STATUSES, MISSION_CATEGORIES} from "./types";

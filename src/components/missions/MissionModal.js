@@ -6,6 +6,7 @@ import MissionsUtils from "./missionsUtils";
 import userStore from "../users/userStore";
 import authStore from "../auth/authStore";
 import {toJS} from "mobx";
+import history from "../../history";
 
 class MissionModal extends Component {
 
@@ -75,7 +76,11 @@ class MissionModal extends Component {
   }
 
   onRSVPClick = () => {
-    console.log("Handle RSVP click");
+    if (authStore.user === null) {
+      history.push("/login");
+    } else {
+      console.log("TODO: Handle RSVP");
+    }
   };
 
   render() {
