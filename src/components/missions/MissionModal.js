@@ -32,7 +32,7 @@ class MissionModal extends Component {
   };
 
   onDeleteClick = () => {
-    console.log("Handle delete");
+    return this.missionsStore.deleteMission();
   };
 
   renderDeleteConfirm() {

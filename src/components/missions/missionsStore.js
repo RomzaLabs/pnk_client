@@ -261,6 +261,14 @@ class MissionsStore {
     this.createdMissionErrors = errors;
   }
 
+  deleteMission = () => {
+    const selectedMission = this.selectedMission;
+    return missionsApi.deleteMission(selectedMission.id).then(response => {
+      this.clearSelectedMission();
+      this.missions = this.missions.filter(m => m !== selectedMission);
+    });
+  };
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -324,7 +332,8 @@ decorate(MissionsStore, {
   setCreatedMission: action,
   clearCreatedMission: action,
   initNewMission: action,
-  submitNewMission: action
+  submitNewMission: action,
+  deleteMission: action
 });
 
 export default MissionsStore;
