@@ -287,9 +287,11 @@ class MissionsStore {
 
   deleteMission = () => {
     const selectedMission = this.selectedMission;
-    return missionsApi.deleteMission(selectedMission.id).then(response => {
+    return missionsApi.deleteMission(selectedMission.id).then(() => {
       this.clearSelectedMission();
-      this.missions = this.missions.filter(m => m !== selectedMission);
+      this.currentPage = 1;
+      this.missions = [];
+      this.getMissions();
     });
   };
 
