@@ -23,11 +23,18 @@ class MissionCreateModal extends Component {
     const mission = this.missionsStore.createdMission;
     if (!mission) return undefined;
 
+    let missionImage = "/images/missions/categories/xxx.png";
+    if (mission.feature_image) {
+      missionImage = mission.feature_image;
+    } else if (mission.category) {
+      missionImage = `/images/missions/categories/${mission.category.toLowerCase()}.png`;
+    }
+
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
         <Modal.Header>Create a Mission</Modal.Header>
         <Modal.Content image scrolling>
-          <Image size='medium' src={"/images/missions/other_category.png"} wrapped />
+          <Image size='medium' src={missionImage} wrapped />
           <Modal.Description style={{flex: 1}}>
             <Form>
               <Form.Input
