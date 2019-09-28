@@ -32,13 +32,10 @@ class MissionsUtils {
   }
 
   static getUserCount(mission) {
-    const today = moment();
-    const missionDate = moment(mission.mission_date);
-
-    if (missionDate.isBefore(today)) {
-      return mission.attended_users.length;
-    }
-    return mission.rsvp_users.length;
+    let count = 0;
+    if (mission.commander) count = 1;
+    if (mission.rsvp_users) count = count + mission.rsvp_users.length;
+    return count;
   }
 
   static getCountdown(date) {
