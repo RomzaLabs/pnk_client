@@ -50,7 +50,7 @@ class MissionList extends Component {
   };
 
   loadMore() {
-    if (this.missionsStore && this.missionsStore.loading === false) {
+    if (this.missionsStore && this.missionsStore.loading === false && this.missionsStore.hasMore) {
       this.missionsStore.getMissions();
     }
   }
