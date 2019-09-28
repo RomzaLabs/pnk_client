@@ -39,7 +39,7 @@ it("can get image URL", () => {
   expect(actualImageURLForFeature).toEqual("https://i.redd.it/c0bossg1slw21.png");
 
   const actualImageURLForNonFeature = MissionsUtils.getImageURL(mission0);
-  expect(actualImageURLForNonFeature).toEqual("/images/missions/other_category.png");
+  expect(actualImageURLForNonFeature).toEqual("/images/missions/categories/xxx.png");
 });
 
 it("can render a mission header", () => {
