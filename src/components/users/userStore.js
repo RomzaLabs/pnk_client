@@ -1,5 +1,6 @@
 import {decorate, observable} from "mobx";
 import userApi from "./api";
+import authStore from "../auth/authStore";
 
 class UserStore {
 
@@ -23,6 +24,11 @@ class UserStore {
         this.currentPage = this.currentPage + 1;
         this.getUsers();
       } else {
+        const loggedInUsername = authStore.user ? authStore.user.username : "";
+        const user = this.users.find(u => u.username === loggedInUsername);
+        if (user) {
+          authStore.setUserUUID(user.id);
+        }
         this.loading = false;
       }
     });

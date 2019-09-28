@@ -33,6 +33,10 @@
   color: black !important;
 }
 
+.ui.cards > .card {
+  height: 100%;
+}
+
 .ui.cards > .yellow.card, .ui.yellow.card, .ui.yellow.cards > .card {
   border-top: 2px solid #FBBD08;
   -webkit-box-shadow: none;

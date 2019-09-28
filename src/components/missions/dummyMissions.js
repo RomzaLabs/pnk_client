@@ -15,11 +15,11 @@ export const dummyMissions = [
     "commander": "3786b93a-30ea-447a-a2b7-3bdb187ead6d",
     "rsvp_users": [
       "3786b93a-30ea-447a-a2b7-3bdb187ead6d",
-      "3786b93a-30ea-447a-a2b7-3bdb187ead6d",
-      "3786b93a-30ea-447a-a2b7-3bdb187ead6d"
+      "3786b93a-30ea-447a-a2b7-3bdb187ead6e",
+      "3786b93a-30ea-447a-a2b7-3bdb187ead6f"
     ],
     "attended_users": [
-      "3786b93a-30ea-447a-a2b7-3bdb187ead6d"
+      "3786b93a-30ea-447a-a2b7-3bdb187ead6g"
     ]
   },
   {

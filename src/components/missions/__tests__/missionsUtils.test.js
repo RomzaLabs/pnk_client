@@ -1,14 +1,21 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import MissionsUtils from '../missionsUtils';
-import {dummyMissions} from "./dummyMissions";
+import {dummyMissions} from "../dummyMissions";
 
 let mission0;
 let mission1;
+let loadedUsers;
 
 beforeEach(() => {
   mission0 = dummyMissions[0];
   mission1 = dummyMissions[1];
+  loadedUsers = [
+    {id: "3786b93a-30ea-447a-a2b7-3bdb187ead6d", username: "test1"},
+    {id: "3786b93a-30ea-447a-a2b7-3bdb187ead6e", username: "test2"},
+    {id: "3786b93a-30ea-447a-a2b7-3bdb187ead6f", username: "test3"},
+    {id: "3786b93a-30ea-447a-a2b7-3bdb187ead6g", username: "test4"},
+  ];
 });
 
 it('can render a loader', () => {
@@ -32,13 +39,13 @@ it("can get image URL", () => {
   expect(actualImageURLForFeature).toEqual("https://i.redd.it/c0bossg1slw21.png");
 
   const actualImageURLForNonFeature = MissionsUtils.getImageURL(mission0);
-  expect(actualImageURLForNonFeature).toEqual("/images/missions/otherq_category.png");
+  expect(actualImageURLForNonFeature).toEqual("/images/missions/other_category.png");
 });
 
 it("can render a mission header", () => {
-  const missionHeader = MissionsUtils.renderMissionHeader(mission0);
+  const missionHeader = MissionsUtils.renderMissionHeader(mission0, loadedUsers);
   const wrapped = mount(missionHeader).get(0);
-  expect(mount(wrapped).render().text()).toContain("Messing around in Yela");
+  expect(mount(wrapped).render().text()).toContain("Date");
 });
 
 it("can render a mission description", () => {
@@ -60,25 +67,20 @@ it("can render a mission debriefing", () => {
 });
 
 it("can render mission participants", () => {
-  const missionParticipants = MissionsUtils.renderMissionParticipants(mission0);
+  const missionParticipants = MissionsUtils.renderMissionParticipants(mission0, loadedUsers);
   const rsvps = mount(missionParticipants).get(1);
   const attendees = mount(missionParticipants).get(3);
-  expect(mount(rsvps).render().text()).toContain("3786b93a-30ea-447a-a2b7-3bdb187ead6d");
-  expect(mount(attendees).render().text()).toContain("3786b93a-30ea-447a-a2b7-3bdb187ead6d");
+  expect(mount(rsvps).render().text()).toContain("test1");
+  expect(mount(attendees).render().text()).toContain("test4");
 });
 
 it("can render users", () => {
   const users = mission0.rsvp_users;
-  const userRender = MissionsUtils.renderUser(users);
+  const userRender = MissionsUtils.renderUser(users, loadedUsers);
   expect(userRender.length).toEqual(3);
 });
 
 it("can render media items", () => {
   const mediaItems = mount(MissionsUtils.renderMediaItems(mission0));
-  expect(mediaItems.length).toEqual(2);
-});
-
-it("can render RSVP button", () => {
-  const rsvpButton = mount(MissionsUtils.renderRSVPButton());
-  expect(rsvpButton.text()).toContain("RSVP");
+  expect(mediaItems.length).toEqual(1);
 });

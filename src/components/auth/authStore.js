@@ -44,6 +44,10 @@ class AuthStore {
     history.push("/");
   }
 
+  setUserUUID(uuid) {
+    this.user = {...this.user, uuid};
+  }
+
   /* Computed Properties. */
 
   get isLoggedIn() {

@@ -31,3 +31,15 @@ body {
   font-family: 'Furore', 'sans-serif';
   font-size: 1.2rem;
 }
+
+.ui.large.modal > .header {
+  font-family: 'Furore', 'sans-serif';
+}
+
+.content {
+  color: black;
+}
+
+.ui.modal .scrolling.content {
+  margin-bottom: 1em;
+}

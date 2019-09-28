@@ -1,5 +1,5 @@
 import React, {Fragment} from "react";
-import {Button, Dimmer, Header, Image, List, Loader, Table} from "semantic-ui-react";
+import {Dimmer, Header, Image, List, Loader, Table} from "semantic-ui-react";
 import moment from "moment-timezone";
 import Countdown from "react-countdown-now";
 import {MISSION_STATUSES, MISSION_CATEGORIES} from "./types";
@@ -71,7 +71,6 @@ class MissionsUtils {
 
     return (
       <Fragment>
-        <Header size='huge'>{mission.name}</Header>
         <Table definition>
           <Table.Body>
             <Table.Row>
@@ -93,7 +92,7 @@ class MissionsUtils {
             <Table.Row>
               <Table.Cell>Commander</Table.Cell>
               <Table.Cell>
-                <List animated verticalAlign='middle'>
+                <List verticalAlign='middle'>
                   <List.Item>
                     <Image avatar src='/images/avatar/generic.png' />
                     <List.Content>
@@ -103,14 +102,7 @@ class MissionsUtils {
                 </List>
               </Table.Cell>
             </Table.Row>
-            <Table.Row>
-              <Table.Cell>Media</Table.Cell>
-              <Table.Cell>
-                <List>
-                  {mediaItems}
-                </List>
-              </Table.Cell>
-            </Table.Row>
+            {mediaItems}
           </Table.Body>
         </Table>
       </Fragment>
@@ -121,7 +113,7 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Description</Header>
-        <p>{mission.description}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.description}</p>
       </Fragment>
     );
   }
@@ -131,7 +123,7 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Briefing</Header>
-        <p>{mission.briefing}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.briefing}</p>
       </Fragment>
     );
   }
@@ -141,25 +133,40 @@ class MissionsUtils {
     return (
       <Fragment>
         <Header size="large">Mission Debriefing</Header>
-        <p>{mission.debriefing}</p>
+        <p style={{whiteSpace: "pre-wrap"}}>{mission.debriefing}</p>
       </Fragment>
     );
   }
 
   static renderMissionParticipants(mission, loadedUsers) {
-    const rsvpUsers = this.renderUser(mission.rsvp_users, loadedUsers);
-    const attendedUsers = this.renderUser(mission.attended_users, loadedUsers);
+    let rsvpRow = undefined;
+    if (mission.rsvp_users && mission.rsvp_users.length) {
+      rsvpRow = (
+        <Fragment>
+          <Header size="large">Mission RSVPs</Header>
+          <List ordered verticalAlign='middle'>
+            {this.renderUser(mission.rsvp_users, loadedUsers)}
+          </List>
+        </Fragment>
+      );
+    }
+
+    let attendeesRow = undefined;
+    if (mission.attended_users && mission.attended_users.length) {
+      attendeesRow = (
+        <Fragment>
+          <Header size="large">Mission Attendees</Header>
+          <List ordered verticalAlign='middle'>
+            {this.renderUser(mission.attended_users, loadedUsers)}
+          </List>
+        </Fragment>
+      );
+    }
+
     return (
       <Fragment>
-        <Header size="large">Mission RSVPs</Header>
-        <List horizontal ordered verticalAlign='middle'>
-          {rsvpUsers}
-        </List>
-
-        <Header size="large">Mission Attendees</Header>
-        <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
-          {attendedUsers}
-        </List>
+        {rsvpRow}
+        {attendeesRow}
       </Fragment>
     );
   }
@@ -196,27 +203,23 @@ class MissionsUtils {
 
     if (discordURL && videoURL) {
       return (
-        <Fragment>
-          {discordLink}
-          {twitchLink}
-        </Fragment>
+        <Table.Row>
+          <Table.Cell>Media</Table.Cell>
+          <Table.Cell>
+            <List>
+              {discordLink}
+              {twitchLink}
+            </List>
+          </Table.Cell>
+        </Table.Row>
       );
     } else if (discordURL) {
       return discordLink;
     } else if (videoURL) {
       return twitchLink;
     } else {
-      return <List.Item key="na" content='N/A' />;
+      return undefined;
     }
-  }
-
-  static renderRSVPButton() {
-    // Don't show this button if user is already RSVPd.
-    return <Button primary onClick={this.onRSVPClick}>RSVP</Button>
-  }
-
-  static onRSVPClick() {
-    console.log("Handle RSVP click");
   }
 
 }

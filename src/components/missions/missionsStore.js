@@ -1,6 +1,8 @@
 import {action, decorate, observable} from "mobx";
 import usersApi from "../users/api";
 import missionsApi from "./api";
+import authStore from "../auth/authStore";
+import moment from "moment-timezone";
 
 
 class MissionsStore {
@@ -32,6 +34,10 @@ class MissionsStore {
   locations = [];
   filterLocations = [];
   selectedLocations = [];
+
+  createdMission = null;
+  createdMissionErrors = null;
+  editMode = false;
 
   /* Constructor. */
 
@@ -197,6 +203,108 @@ class MissionsStore {
     this.setLocations(missions);
   }
 
+  setEditMode(boolVal) {
+    this.editMode = boolVal;
+  }
+
+  setCreatedMission(mission) {
+    if (mission.mission_date !== "") {
+      const momentDate = moment(mission.mission_date);
+      mission = {...mission, date: momentDate.format("YYYY-MM-DD"), time: momentDate.format("HH:mm"), mission_date: ""};
+    }
+    this.createdMission = mission;
+  }
+
+  clearCreatedMission() {
+    this.createdMission = null;
+  }
+
+  initNewMission() {
+    const mission = {
+      name: '', // required
+      description: '', // required
+      category: '', // required
+      location: '', // required
+      date: '',
+      time: '',
+      mission_date: '', // required, 2019-09-13T21:53:00+0000
+      mission_status: 'ACT', // required
+      commander: '', // required
+      discordURL: '',
+      videoURL: '',
+      feature_image: '',
+      briefing: '',
+      debriefing: '',
+      rsvp_users: [],
+      attended_users: []
+    };
+    this.setCreatedMission(mission);
+  }
+
+  updateMission = (mission) => {
+    return missionsApi.updateMission(mission.id, mission).then(() => {
+      this.clearCreatedMission();
+      this.createdMissionErrors = null;
+      this.currentPage = 1;
+      this.missions = [];
+      this.getMissions();
+    });
+  };
+
+  submitNewMission = () => {
+    let mission_date;
+    if (this.createdMission.date && this.createdMission.time) {
+      const timezone = moment.tz.guess();
+      mission_date = moment.tz(this.createdMission.date + " " + this.createdMission.time, timezone).format();
+    }
+    const mission = {...this.createdMission, mission_date, commander: authStore.user.uuid};
+
+    if (this.editMode) {
+      return this.updateMission(mission);
+    } else {
+      return missionsApi.createMission(mission)
+        .then(() => {
+          this.clearCreatedMission();
+          this.createdMissionErrors = null;
+          this.currentPage = 1;
+          this.missions = [];
+          this.getMissions();
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            const formErrors = error.response.data;
+            this.setCreatedMissionErrors(formErrors);
+          } else {
+            console.error(error);
+          }
+        });
+    }
+  };
+
+  setCreatedMissionErrors(errors) {
+    this.createdMissionErrors = errors;
+  }
+
+  deleteMission = () => {
+    const selectedMission = this.selectedMission;
+    return missionsApi.deleteMission(selectedMission.id).then(() => {
+      this.clearSelectedMission();
+      this.currentPage = 1;
+      this.missions = [];
+      this.getMissions();
+    });
+  };
+
+  rsvpMission = () => {
+    const { id, rsvp_users } = this.selectedMission;
+    const currentUserId = authStore.user.uuid;
+    return missionsApi.rsvpMission(id, {rsvp_users: [...rsvp_users, currentUserId]})
+      .then(r => {
+        const rsvp_users = r.data.rsvp_users;
+        this.setSelectedMission({...this.selectedMission, rsvp_users});
+      });
+  };
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -242,6 +350,9 @@ decorate(MissionsStore, {
   locations: observable,
   filterLocations: observable,
   selectedLocations: observable,
+  createdMission: observable,
+  createdMissionErrors: observable,
+  editMode: observable,
   setUser: action,
   clearUser: action,
   getMissions: action,
@@ -254,7 +365,14 @@ decorate(MissionsStore, {
   setSelectedCategories: action,
   setSelectedStatuses: action,
   setSelectedParticipants: action,
-  setSelectedLocations: action
+  setSelectedLocations: action,
+  setCreatedMission: action,
+  clearCreatedMission: action,
+  initNewMission: action,
+  submitNewMission: action,
+  deleteMission: action,
+  setEditMode: action,
+  rsvpMission: action
 });
 
 export default MissionsStore;
