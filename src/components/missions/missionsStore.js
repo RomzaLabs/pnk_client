@@ -243,6 +243,7 @@ class MissionsStore {
   updateMission = (mission) => {
     return missionsApi.updateMission(mission.id, mission).then(() => {
       this.clearCreatedMission();
+      this.clearSelectedMission();
       this.createdMissionErrors = null;
       this.currentPage = 1;
       this.missions = [];

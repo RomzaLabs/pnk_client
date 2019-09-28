@@ -67,11 +67,18 @@ class MissionModal extends Component {
 
   onResolveConfirmClose = () => {
     this.setState({resolveConfirmOpen: false});
+    const { selectedMission } = this.missionsStore;
+    this.missionsStore.setSelectedMission({...selectedMission, mission_status: "FAI"});
+    const updatedMission = this.missionsStore.selectedMission;
+    this.missionsStore.updateMission(updatedMission);
   };
 
   onResolveClick = () => {
     this.setState({resolveConfirmOpen: false});
-    // return this.missionsStore.deleteMission();
+    const { selectedMission } = this.missionsStore;
+    this.missionsStore.setSelectedMission({...selectedMission, mission_status: "SUC"});
+    const updatedMission = this.missionsStore.selectedMission;
+    this.missionsStore.updateMission(updatedMission);
   };
 
   renderResolveButton(mission, user) {
