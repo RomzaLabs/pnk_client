@@ -295,6 +295,16 @@ class MissionsStore {
     });
   };
 
+  rsvpMission = () => {
+    const { id, rsvp_users } = this.selectedMission;
+    const currentUserId = authStore.user.uuid;
+    return missionsApi.rsvpMission(id, {rsvp_users: [...rsvp_users, currentUserId]})
+      .then(r => {
+        const rsvp_users = r.data.rsvp_users;
+        this.setSelectedMission({...this.selectedMission, rsvp_users});
+      });
+  };
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -361,7 +371,8 @@ decorate(MissionsStore, {
   initNewMission: action,
   submitNewMission: action,
   deleteMission: action,
-  setEditMode: action
+  setEditMode: action,
+  rsvpMission: action
 });
 
 export default MissionsStore;

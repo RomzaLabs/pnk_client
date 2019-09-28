@@ -79,7 +79,7 @@ class MissionModal extends Component {
     if (authStore.user === null) {
       history.push("/login");
     } else {
-      console.log("TODO: Handle RSVP");
+      this.missionsStore.rsvpMission();
     }
   };
 
