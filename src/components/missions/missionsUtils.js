@@ -92,7 +92,7 @@ class MissionsUtils {
             <Table.Row>
               <Table.Cell>Commander</Table.Cell>
               <Table.Cell>
-                <List animated verticalAlign='middle'>
+                <List verticalAlign='middle'>
                   <List.Item>
                     <Image avatar src='/images/avatar/generic.png' />
                     <List.Content>
@@ -144,7 +144,7 @@ class MissionsUtils {
       rsvpRow = (
         <Fragment>
           <Header size="large">Mission RSVPs</Header>
-          <List horizontal ordered verticalAlign='middle'>
+          <List ordered verticalAlign='middle'>
             {this.renderUser(mission.rsvp_users, loadedUsers)}
           </List>
         </Fragment>
@@ -156,7 +156,7 @@ class MissionsUtils {
       attendeesRow = (
         <Fragment>
           <Header size="large">Mission Attendees</Header>
-          <List horizontal ordered verticalAlign='middle' style={{marginBottom: 20}}>
+          <List ordered verticalAlign='middle'>
             {this.renderUser(mission.attended_users, loadedUsers)}
           </List>
         </Fragment>
