@@ -39,3 +39,7 @@ body {
 .content {
   color: black;
 }
+
+.ui.modal .scrolling.content {
+  margin-bottom: 1em;
+}
