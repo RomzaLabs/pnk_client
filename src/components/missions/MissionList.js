@@ -69,7 +69,7 @@ class MissionList extends Component {
   };
 
   render() {
-    const menu = <MissionFilters missionsStore={this.missionsStore} />;
+    const menu = window.innerWidth > 400 ? <MissionFilters missionsStore={this.missionsStore} /> : undefined;
     const cards = this.renderMissionCards();
     let modal;
     let missionCreateModal;
