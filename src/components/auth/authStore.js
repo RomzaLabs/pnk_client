@@ -1,6 +1,7 @@
 import {computed, decorate, observable} from "mobx";
 import history from "../../history";
 import api from "./api";
+import userStore from "../users/userStore";
 
 class AuthStore {
 
@@ -24,6 +25,10 @@ class AuthStore {
       this.user = {...response.data};
       localStorage.setItem("token", this.user.token);
       localStorage.setItem("username", username);
+      const user = userStore.users.find(u => u.username === username);
+      if (user) {
+        this.setUserUUID(user.id);
+      }
       history.push("/");
     }).catch(error => {
       if (!error.response) {
