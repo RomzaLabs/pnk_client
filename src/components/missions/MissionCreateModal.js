@@ -4,6 +4,7 @@ import {Image, Modal, Button, Icon, Form} from "semantic-ui-react";
 import PropTypes from 'prop-types';
 import {MISSION_CATEGORY_OPTS} from "./types";
 import {observer} from 'mobx-react';
+import moment from "moment-timezone";
 
 
 class MissionCreateModal extends Component {
@@ -226,7 +227,18 @@ class MissionCreateModal extends Component {
     );
   }
 
-  renderDebriefingInput() {
+  renderDebriefingInput(mission) {
+    if (!mission.date && !mission.time) return undefined;
+
+    let shouldHide = true;
+    if (mission.date && mission.time) {
+      const timezone = moment.tz.guess();
+      const date = moment.tz(mission.date + " " + mission.time, timezone);
+      const today = moment();
+      if (date.isSameOrBefore(today)) shouldHide = false;
+    }
+    if (shouldHide) return undefined;
+
     return (
       <Form.TextArea
         label="Mission Debriefing"
@@ -268,7 +280,7 @@ class MissionCreateModal extends Component {
     const discordInput = this.renderDiscordInput();
     const videoInput = this.renderVideoInput();
     const briefingInput = this.renderBriefingInput();
-    const debriefingInput = this.renderDebriefingInput();
+    const debriefingInput = this.renderDebriefingInput(mission);
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
