@@ -19,7 +19,7 @@ export const MISSION_CATEGORIES = {
   'TRD': 'Trading',
   'TRA': 'Training',
   'TRN': 'Transport',
-  'XXX': 'Transport'
+  'XXX': 'Top Secret'
 };
 
 export const MISSION_CATEGORY_OPTS = [
@@ -37,5 +37,5 @@ export const MISSION_CATEGORY_OPTS = [
   { key: 'TRD', text: 'Trading', value: 'TRD' },
   { key: 'TRA', text: 'Training', value: 'TRA' },
   { key: 'TRN', text: 'Transport', value: 'TRN' },
-  { key: 'XXX', text: 'Bounty Hunting', value: 'XXX' }
+  { key: 'XXX', text: 'Top Secret', value: 'XXX' }
 ];

@@ -45,7 +45,7 @@ class Header extends Component {
       <Container>
         <Menu stackable>
           <Menu.Item name="home" onClick={() => history.push("/")}>
-            <Image src='/images/PurNKleen_logo.png' size='tiny'/>
+            <Image src='/images/PNK_Logo.png' size='tiny'/>
           </Menu.Item>
 
           <Menu.Item

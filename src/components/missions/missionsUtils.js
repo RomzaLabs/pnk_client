@@ -50,12 +50,22 @@ class MissionsUtils {
 
   static getCategoryDefaultURL(category) {
     switch (category) {
-      case 'SOC': return "/images/missions/community_category.png";
-      case 'EXP': return "/images/missions/exploration_category.png";
-      case 'RES': return "/images/missions/mining_category.png";
-      case 'FRE': return "/images/missions/mission_category.png";
-      case 'XXX': return "/images/missions/other_category.png";
-      default: return "/images/missions/other_category.png";
+      case 'HUN': return "/images/missions/categories/hun.png";
+      case 'ENG': return "/images/missions/categories/eng.png";
+      case 'EXP': return "/images/missions/categories/exp.png";
+      case 'FRE': return "/images/missions/categories/fre.png";
+      case 'INF': return "/images/missions/categories/inf.png";
+      case 'PIR': return "/images/missions/categories/pir.png";
+      case 'RES': return "/images/missions/categories/res.png";
+      case 'SCO': return "/images/missions/categories/sco.png";
+      case 'SEC': return "/images/missions/categories/sec.png";
+      case 'SMU': return "/images/missions/categories/smu.png";
+      case 'SOC': return "/images/missions/categories/soc.png";
+      case 'TRD': return "/images/missions/categories/trd.png";
+      case 'TRA': return "/images/missions/categories/tra.png";
+      case 'TRN': return "/images/missions/categories/trn.png";
+      case 'XXX':
+      default: return "/images/missions/categories/xxx.png";
     }
   }
 
