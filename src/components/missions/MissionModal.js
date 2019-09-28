@@ -15,7 +15,7 @@ class MissionModal extends Component {
     onClose: PropTypes.func.isRequired
   };
 
-  state = { deleteConfirmOpen: false };
+  state = { deleteConfirmOpen: false, resolveConfirmOpen: false };
 
   constructor(props) {
     super(props);
@@ -51,11 +51,34 @@ class MissionModal extends Component {
     );
   }
 
+  renderResolveConfirm() {
+    return (
+      <Confirm
+        className={"mission-resolve"}
+        open={this.state.resolveConfirmOpen}
+        content="How do you want to resolve this mission?"
+        cancelButton='Failed'
+        confirmButton="Successful"
+        onCancel={this.onResolveConfirmClose}
+        onConfirm={this.onResolveClick}
+      />
+    );
+  }
+
+  onResolveConfirmClose = () => {
+    this.setState({resolveConfirmOpen: false});
+  };
+
+  onResolveClick = () => {
+    this.setState({resolveConfirmOpen: false});
+    // return this.missionsStore.deleteMission();
+  };
+
   renderResolveButton(mission, user) {
     const { commander } = mission;
     if (user === null) return undefined;
     if (user.uuid !== commander) return undefined;
-    return <Button primary onClick={this.onEditClick}>Resolve</Button>
+    return <Button primary onClick={() => {this.setState({resolveConfirmOpen: true});}}>Resolve</Button>;
   }
 
   renderEditButton(mission, user) {
@@ -107,6 +130,8 @@ class MissionModal extends Component {
     const editButton = this.renderEditButton(mission, user);
     const deleteButton = this.renderDeleteButton(mission, user);
     const rsvpButton = this.renderRSVPButton(mission, user);
+
+    const resolveConfirm = this.renderResolveConfirm();
     const deleteConfirm = this.renderDeleteConfirm();
 
     return (
@@ -127,6 +152,7 @@ class MissionModal extends Component {
           {editButton}
           {deleteButton}
           {rsvpButton}
+          {resolveConfirm}
           {deleteConfirm}
         </Modal.Actions>
       </Modal>
