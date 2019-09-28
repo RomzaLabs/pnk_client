@@ -51,6 +51,13 @@ class MissionModal extends Component {
     );
   }
 
+  renderResolveButton(mission, user) {
+    const { commander } = mission;
+    if (user === null) return undefined;
+    if (user.uuid !== commander) return undefined;
+    return <Button primary onClick={this.onEditClick}>Resolve</Button>
+  }
+
   renderEditButton(mission, user) {
     const { commander } = mission;
     if (user === null) return undefined;
@@ -96,8 +103,9 @@ class MissionModal extends Component {
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
 
-    const deleteButton = this.renderDeleteButton(mission, user);
+    const resolveButton = this.renderResolveButton(mission, user);
     const editButton = this.renderEditButton(mission, user);
+    const deleteButton = this.renderDeleteButton(mission, user);
     const rsvpButton = this.renderRSVPButton(mission, user);
     const deleteConfirm = this.renderDeleteConfirm();
 
@@ -115,6 +123,7 @@ class MissionModal extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
+          {resolveButton}
           {editButton}
           {deleteButton}
           {rsvpButton}
