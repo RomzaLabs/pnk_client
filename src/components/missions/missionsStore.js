@@ -56,7 +56,6 @@ class MissionsStore {
   }
 
   clearUser() {
-    console.log("Clearing user");
     this.user = null;
   }
 
