@@ -304,6 +304,14 @@ class MissionsStore {
       });
   };
 
+  setUserAsAttended = (user, didAttend) => {
+    if (didAttend) {
+      console.log("Mark user as attended: ", user);
+    } else {
+      console.log("Mark user as not attended: ", user);
+    }
+  };
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -371,7 +379,8 @@ decorate(MissionsStore, {
   submitNewMission: action,
   deleteMission: action,
   setEditMode: action,
-  rsvpMission: action
+  rsvpMission: action,
+  setUserAsAttended: action
 });
 
 export default MissionsStore;
