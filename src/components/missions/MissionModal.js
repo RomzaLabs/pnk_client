@@ -186,7 +186,7 @@ class MissionModal extends Component {
       const today = moment();
       if (missionDate.isSameOrBefore(today)) {
         style = "a";
-        clickHandler = () => {
+        clickHandler = (user) => {
           didAttend ?
             this.missionsStore.setUserAsAttended(user, true)
             : this.missionsStore.setUserAsAttended(user, false)
@@ -197,8 +197,12 @@ class MissionModal extends Component {
     return users.map(user => {
       return (
         <List.Item key={user}>
-          <Image avatar src='/images/avatar/generic.png' onClick={clickHandler}/>
-          <List.Content onClick={clickHandler}>
+          <Image
+            avatar
+            src='/images/avatar/generic.png'
+            onClick={() => clickHandler(user)}
+          />
+          <List.Content onClick={() => clickHandler(user)}>
             <List.Header as={style} >{loadedUsers.find(u => u.id === user).username}</List.Header>
           </List.Content>
         </List.Item>

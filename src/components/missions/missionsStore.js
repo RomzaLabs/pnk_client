@@ -306,9 +306,17 @@ class MissionsStore {
 
   setUserAsAttended = (user, didAttend) => {
     if (didAttend) {
-      console.log("Mark user as attended: ", user);
+      const attended_users = this.selectedMission.attended_users;
+      if (!attended_users.includes(user)) {
+        const mission = {...this.selectedMission, attended_users: [...attended_users, user]};
+        this.setSelectedMission(mission);
+        return this.updateMission(mission);
+      }
     } else {
-      console.log("Mark user as not attended: ", user);
+      const attended_users = this.selectedMission.attended_users.filter(u => u !== user);
+      const mission = {...this.selectedMission, attended_users};
+      this.setSelectedMission(mission);
+      return this.updateMission(mission);
     }
   };
 
