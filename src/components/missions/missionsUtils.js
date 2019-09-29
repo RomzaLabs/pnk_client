@@ -145,52 +145,6 @@ class MissionsUtils {
     );
   }
 
-  static renderMissionParticipants(mission, loadedUsers) {
-    let rsvpRow = undefined;
-    if (mission.rsvp_users && mission.rsvp_users.length) {
-      rsvpRow = (
-        <Fragment>
-          <Header size="large">Mission RSVPs</Header>
-          <List ordered verticalAlign='middle'>
-            {this.renderUser(mission.rsvp_users, loadedUsers)}
-          </List>
-        </Fragment>
-      );
-    }
-
-    let attendeesRow = undefined;
-    if (mission.attended_users && mission.attended_users.length) {
-      attendeesRow = (
-        <Fragment>
-          <Header size="large">Mission Attendees</Header>
-          <List ordered verticalAlign='middle'>
-            {this.renderUser(mission.attended_users, loadedUsers)}
-          </List>
-        </Fragment>
-      );
-    }
-
-    return (
-      <Fragment>
-        {rsvpRow}
-        {attendeesRow}
-      </Fragment>
-    );
-  }
-
-  static renderUser(users, loadedUsers) {
-    return users.map(user => {
-      return (
-        <List.Item key={user}>
-          <Image avatar src='/images/avatar/generic.png' />
-          <List.Content>
-            <List.Header>{loadedUsers.find(u => u.id === user).username}</List.Header>
-          </List.Content>
-        </List.Item>
-      );
-    });
-  }
-
   static renderMediaItems(mission) {
     const discordURL = mission.discordURL;
     const videoURL = mission.videoURL;

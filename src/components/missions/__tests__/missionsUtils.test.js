@@ -66,20 +66,6 @@ it("can render a mission debriefing", () => {
   expect(mount(wrapped).render().text()).toContain("This is debrief.");
 });
 
-it("can render mission participants", () => {
-  const missionParticipants = MissionsUtils.renderMissionParticipants(mission0, loadedUsers);
-  const rsvps = mount(missionParticipants).get(1);
-  const attendees = mount(missionParticipants).get(3);
-  expect(mount(rsvps).render().text()).toContain("test1");
-  expect(mount(attendees).render().text()).toContain("test4");
-});
-
-it("can render users", () => {
-  const users = mission0.rsvp_users;
-  const userRender = MissionsUtils.renderUser(users, loadedUsers);
-  expect(userRender.length).toEqual(3);
-});
-
 it("can render media items", () => {
   const mediaItems = mount(MissionsUtils.renderMediaItems(mission0));
   expect(mediaItems.length).toEqual(1);

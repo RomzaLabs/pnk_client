@@ -1,6 +1,6 @@
 import './css/MissionModal.css';
-import React, { Component } from 'react';
-import {Button, Confirm, Image, Modal} from "semantic-ui-react";
+import React, { Component, Fragment } from 'react';
+import {Button, Confirm, Header, Image, List, Modal} from "semantic-ui-react";
 import PropTypes from 'prop-types';
 import MissionsUtils from "./missionsUtils";
 import userStore from "../users/userStore";
@@ -142,6 +142,74 @@ class MissionModal extends Component {
     }
   };
 
+  renderMissionParticipants(mission, loadedUsers) {
+    let rsvpRow = undefined;
+    if (mission.rsvp_users && mission.rsvp_users.length) {
+      rsvpRow = (
+        <Fragment>
+          <Header size="large">Mission RSVPs</Header>
+          <List ordered verticalAlign='middle'>
+            {this.renderUsers(mission, mission.rsvp_users, loadedUsers, true)}
+          </List>
+        </Fragment>
+      );
+    }
+
+    let attendeesRow = undefined;
+    if (mission.attended_users && mission.attended_users.length) {
+      attendeesRow = (
+        <Fragment>
+          <Header size="large">Mission Attendees</Header>
+          <List ordered verticalAlign='middle'>
+            {this.renderUsers(mission, mission.attended_users, loadedUsers, false)}
+          </List>
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment>
+        {rsvpRow}
+        {attendeesRow}
+      </Fragment>
+    );
+  }
+
+  renderUsers(mission, users, loadedUsers, didAttend) {
+    const {user} = authStore;
+
+    let style = "li";
+    let clickHandler = () => {};
+    if (mission.mission_date && mission.commander === user.uuid) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isSameOrBefore(today)) {
+        style = "a";
+        clickHandler = (user) => {
+          didAttend ?
+            this.missionsStore.setUserAsAttended(user, true)
+            : this.missionsStore.setUserAsAttended(user, false)
+        }
+      }
+    }
+
+    return users.map(user => {
+      return (
+        <List.Item key={user}>
+          <Image
+            avatar
+            src='/images/avatar/generic.png'
+            onClick={() => clickHandler(user)}
+          />
+          <List.Content onClick={() => clickHandler(user)}>
+            <List.Header as={style} >{loadedUsers.find(u => u.id === user).username}</List.Header>
+          </List.Content>
+        </List.Item>
+      );
+    });
+  }
+
   render() {
     const open = this.missionsStore.selectedMission !== null;
     const user = authStore.user;
@@ -153,7 +221,7 @@ class MissionModal extends Component {
     const missionDescription = MissionsUtils.renderMissionDescription(mission);
     const missionBriefing = MissionsUtils.renderMissionBriefing(mission);
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
-    const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
+    const participants = this.renderMissionParticipants(mission, loadedUsers);
 
     const failedButton = this.renderFailedButton(mission, user);
     const successButton = this.renderSuccessButton(mission, user);

@@ -304,6 +304,22 @@ class MissionsStore {
       });
   };
 
+  setUserAsAttended = (user, didAttend) => {
+    if (didAttend) {
+      const attended_users = this.selectedMission.attended_users;
+      if (!attended_users.includes(user)) {
+        const mission = {...this.selectedMission, attended_users: [...attended_users, user]};
+        this.setSelectedMission(mission);
+        return this.updateMission(mission);
+      }
+    } else {
+      const attended_users = this.selectedMission.attended_users.filter(u => u !== user);
+      const mission = {...this.selectedMission, attended_users};
+      this.setSelectedMission(mission);
+      return this.updateMission(mission);
+    }
+  };
+
   /* Computed Properties. */
 
   /* Helpers. */
@@ -371,7 +387,8 @@ decorate(MissionsStore, {
   submitNewMission: action,
   deleteMission: action,
   setEditMode: action,
-  rsvpMission: action
+  rsvpMission: action,
+  setUserAsAttended: action
 });
 
 export default MissionsStore;
