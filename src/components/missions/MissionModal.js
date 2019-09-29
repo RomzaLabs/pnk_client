@@ -180,7 +180,7 @@ class MissionModal extends Component {
 
     let style = "li";
     let clickHandler = () => {};
-    if (mission.mission_date && mission.commander === user.uuid) {
+    if (mission.mission_date && user && mission.commander === user.uuid) {
       const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
       const missionDate = moment.tz(mission.mission_date, timezone);
       const today = moment();
