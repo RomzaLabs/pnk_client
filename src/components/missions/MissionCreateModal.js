@@ -285,7 +285,7 @@ class MissionCreateModal extends Component {
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
         <Modal.Header>Create a Mission</Modal.Header>
-        <Modal.Content image scrolling>
+        <Modal.Content image>
           <Image size='medium' src={missionImage} wrapped />
           <Modal.Description style={{flex: 1}}>
             <Form>

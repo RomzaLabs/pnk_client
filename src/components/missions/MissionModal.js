@@ -7,6 +7,7 @@ import userStore from "../users/userStore";
 import authStore from "../auth/authStore";
 import {toJS} from "mobx";
 import history from "../../history";
+import moment from "moment-timezone";
 
 class MissionModal extends Component {
 
@@ -51,41 +52,40 @@ class MissionModal extends Component {
     );
   }
 
-  renderResolveConfirm() {
-    return (
-      <Confirm
-        className={"mission-resolve"}
-        open={this.state.resolveConfirmOpen}
-        content="How do you want to resolve this mission?"
-        cancelButton='Failed'
-        confirmButton="Successful"
-        onCancel={this.onResolveConfirmClose}
-        onConfirm={this.onResolveClick}
-      />
-    );
-  }
-
-  onResolveConfirmClose = () => {
-    this.setState({resolveConfirmOpen: false});
+  onStatusUpdateClick = (status) => {
     const { selectedMission } = this.missionsStore;
-    this.missionsStore.setSelectedMission({...selectedMission, mission_status: "FAI"});
+    this.missionsStore.setSelectedMission({...selectedMission, mission_status: status});
     const updatedMission = this.missionsStore.selectedMission;
     this.missionsStore.updateMission(updatedMission);
+    this.missionsStore.clearSelectedMission();
   };
 
-  onResolveClick = () => {
-    this.setState({resolveConfirmOpen: false});
-    const { selectedMission } = this.missionsStore;
-    this.missionsStore.setSelectedMission({...selectedMission, mission_status: "SUC"});
-    const updatedMission = this.missionsStore.selectedMission;
-    this.missionsStore.updateMission(updatedMission);
-  };
-
-  renderResolveButton(mission, user) {
+  renderFailedButton(mission, user) {
     const { commander } = mission;
     if (user === null) return undefined;
     if (user.uuid !== commander) return undefined;
-    return <Button primary onClick={() => {this.setState({resolveConfirmOpen: true});}}>Resolve</Button>;
+    if (mission.mission_status !== "ACT") return undefined;
+    if (mission.mission_date) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isAfter(today)) return undefined;
+    }
+    return <Button negative onClick={() => this.onStatusUpdateClick("FAI")}>Failed</Button>;
+  }
+
+  renderSuccessButton(mission, user) {
+    const { commander } = mission;
+    if (user === null) return undefined;
+    if (user.uuid !== commander) return undefined;
+    if (mission.mission_status !== "ACT") return undefined;
+    if (mission.mission_date) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isAfter(today)) return undefined;
+    }
+    return <Button positive onClick={() => this.onStatusUpdateClick("SUC")}>Success</Button>;
   }
 
   renderEditButton(mission, user) {
@@ -133,18 +133,17 @@ class MissionModal extends Component {
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
 
-    const resolveButton = this.renderResolveButton(mission, user);
+    const failedButton = this.renderFailedButton(mission, user);
+    const successButton = this.renderSuccessButton(mission, user);
     const editButton = this.renderEditButton(mission, user);
     const deleteButton = this.renderDeleteButton(mission, user);
     const rsvpButton = this.renderRSVPButton(mission, user);
-
-    const resolveConfirm = this.renderResolveConfirm();
     const deleteConfirm = this.renderDeleteConfirm();
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
         <Modal.Header>{mission.name}</Modal.Header>
-        <Modal.Content image scrolling>
+        <Modal.Content image>
           <Image size='medium' src={MissionsUtils.getImageURL(mission)} wrapped />
           <Modal.Description style={{flex: 3}}>
             {missionHeader}
@@ -155,11 +154,11 @@ class MissionModal extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
-          {resolveButton}
+          {failedButton}
+          {successButton}
           {editButton}
           {deleteButton}
           {rsvpButton}
-          {resolveConfirm}
           {deleteConfirm}
         </Modal.Actions>
       </Modal>
