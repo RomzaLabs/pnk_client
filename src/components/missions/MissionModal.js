@@ -16,7 +16,7 @@ class MissionModal extends Component {
     onClose: PropTypes.func.isRequired
   };
 
-  state = { deleteConfirmOpen: false, resolveConfirmOpen: false };
+  state = { deleteConfirmOpen: false, briefingConfirmOpen: false };
 
   constructor(props) {
     super(props);
@@ -52,12 +52,34 @@ class MissionModal extends Component {
     );
   }
 
+  renderBriefingConfirm() {
+    return (
+      <Confirm
+        open={this.state.briefingConfirmOpen}
+        content="Do you want to add a mission debrief?"
+        cancelButton='No'
+        confirmButton="Yes"
+        onCancel={this.onBriefingConfirmClose}
+        onConfirm={this.onBriefingClick}
+      />
+    );
+  }
+
+  onBriefingConfirmClose = () => {
+    this.setState({briefingConfirmOpen: false});
+  };
+
+  onBriefingClick = () => {
+    this.setState({briefingConfirmOpen: false});
+    this.onEditClick();
+  };
+
   onStatusUpdateClick = (status) => {
     const { selectedMission } = this.missionsStore;
     this.missionsStore.setSelectedMission({...selectedMission, mission_status: status});
     const updatedMission = this.missionsStore.selectedMission;
     this.missionsStore.updateMission(updatedMission);
-    this.missionsStore.clearSelectedMission();
+    this.setState({briefingConfirmOpen: true});
   };
 
   renderFailedButton(mission, user) {
@@ -139,6 +161,7 @@ class MissionModal extends Component {
     const deleteButton = this.renderDeleteButton(mission, user);
     const rsvpButton = this.renderRSVPButton(mission, user);
     const deleteConfirm = this.renderDeleteConfirm();
+    const briefingConfirm = this.renderBriefingConfirm();
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
@@ -160,6 +183,7 @@ class MissionModal extends Component {
           {deleteButton}
           {rsvpButton}
           {deleteConfirm}
+          {briefingConfirm}
         </Modal.Actions>
       </Modal>
     );
