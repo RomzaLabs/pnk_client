@@ -7,6 +7,7 @@ import userStore from "../users/userStore";
 import authStore from "../auth/authStore";
 import {toJS} from "mobx";
 import history from "../../history";
+import moment from "moment-timezone";
 
 class MissionModal extends Component {
 
@@ -15,7 +16,7 @@ class MissionModal extends Component {
     onClose: PropTypes.func.isRequired
   };
 
-  state = { deleteConfirmOpen: false };
+  state = { deleteConfirmOpen: false, briefingConfirmOpen: false };
 
   constructor(props) {
     super(props);
@@ -49,6 +50,64 @@ class MissionModal extends Component {
         onConfirm={this.onDeleteClick}
       />
     );
+  }
+
+  renderBriefingConfirm() {
+    return (
+      <Confirm
+        open={this.state.briefingConfirmOpen}
+        content="Do you want to add a mission debrief?"
+        cancelButton='No'
+        confirmButton="Yes"
+        onCancel={this.onBriefingConfirmClose}
+        onConfirm={this.onBriefingClick}
+      />
+    );
+  }
+
+  onBriefingConfirmClose = () => {
+    this.setState({briefingConfirmOpen: false});
+  };
+
+  onBriefingClick = () => {
+    this.setState({briefingConfirmOpen: false});
+    this.onEditClick();
+  };
+
+  onStatusUpdateClick = (status) => {
+    const { selectedMission } = this.missionsStore;
+    this.missionsStore.setSelectedMission({...selectedMission, mission_status: status});
+    const updatedMission = this.missionsStore.selectedMission;
+    this.missionsStore.updateMission(updatedMission);
+    this.setState({briefingConfirmOpen: true});
+  };
+
+  renderFailedButton(mission, user) {
+    const { commander } = mission;
+    if (user === null) return undefined;
+    if (user.uuid !== commander) return undefined;
+    if (mission.mission_status !== "ACT") return undefined;
+    if (mission.mission_date) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isAfter(today)) return undefined;
+    }
+    return <Button negative onClick={() => this.onStatusUpdateClick("FAI")}>Failed</Button>;
+  }
+
+  renderSuccessButton(mission, user) {
+    const { commander } = mission;
+    if (user === null) return undefined;
+    if (user.uuid !== commander) return undefined;
+    if (mission.mission_status !== "ACT") return undefined;
+    if (mission.mission_date) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isAfter(today)) return undefined;
+    }
+    return <Button positive onClick={() => this.onStatusUpdateClick("SUC")}>Success</Button>;
   }
 
   renderEditButton(mission, user) {
@@ -96,15 +155,18 @@ class MissionModal extends Component {
     const missionDebriefing = MissionsUtils.renderMissionDebriefing(mission);
     const participants = MissionsUtils.renderMissionParticipants(mission, loadedUsers);
 
-    const deleteButton = this.renderDeleteButton(mission, user);
+    const failedButton = this.renderFailedButton(mission, user);
+    const successButton = this.renderSuccessButton(mission, user);
     const editButton = this.renderEditButton(mission, user);
+    const deleteButton = this.renderDeleteButton(mission, user);
     const rsvpButton = this.renderRSVPButton(mission, user);
     const deleteConfirm = this.renderDeleteConfirm();
+    const briefingConfirm = this.renderBriefingConfirm();
 
     return (
       <Modal centered={false} size='large' open={open} onClose={this.props.onClose}>
         <Modal.Header>{mission.name}</Modal.Header>
-        <Modal.Content image scrolling>
+        <Modal.Content image>
           <Image size='medium' src={MissionsUtils.getImageURL(mission)} wrapped />
           <Modal.Description style={{flex: 3}}>
             {missionHeader}
@@ -115,10 +177,13 @@ class MissionModal extends Component {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions>
+          {failedButton}
+          {successButton}
           {editButton}
           {deleteButton}
           {rsvpButton}
           {deleteConfirm}
+          {briefingConfirm}
         </Modal.Actions>
       </Modal>
     );

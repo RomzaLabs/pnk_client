@@ -10,3 +10,29 @@
   color: #fff;
   text-shadow: none;
 }
+
+.mission-resolve > .actions > button {
+  background-color: #db2828;
+  color: #fff;
+  text-shadow: none;
+  background-image: none;
+}
+
+.mission-resolve > .actions > button:hover {
+  background-color: #d01919;
+  color: #fff;
+  text-shadow: none;
+}
+
+.mission-resolve > .actions > .primary {
+  background-color: #21ba45;
+  color: #fff;
+  text-shadow: none;
+  background-image: none;
+}
+
+.mission-resolve > .actions > .primary:hover {
+  background-color: #16ab39;
+  color: #fff;
+  text-shadow: none;
+}
