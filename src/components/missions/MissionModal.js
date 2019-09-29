@@ -149,7 +149,7 @@ class MissionModal extends Component {
         <Fragment>
           <Header size="large">Mission RSVPs</Header>
           <List ordered verticalAlign='middle'>
-            {this.renderUsers(mission.rsvp_users, loadedUsers, true)}
+            {this.renderUsers(mission, mission.rsvp_users, loadedUsers, true)}
           </List>
         </Fragment>
       );
@@ -161,7 +161,7 @@ class MissionModal extends Component {
         <Fragment>
           <Header size="large">Mission Attendees</Header>
           <List ordered verticalAlign='middle'>
-            {this.renderUsers(mission.attended_users, loadedUsers, false)}
+            {this.renderUsers(mission, mission.attended_users, loadedUsers, false)}
           </List>
         </Fragment>
       );
@@ -175,26 +175,31 @@ class MissionModal extends Component {
     );
   }
 
-  renderUsers(users, loadedUsers, didAttend) {
+  renderUsers(mission, users, loadedUsers, didAttend) {
+    const {user} = authStore;
+
+    let style = "li";
+    let clickHandler = () => {};
+    if (mission.mission_date && mission.commander === user.uuid) {
+      const timezone = moment.tz.guess(); // User's guessed timezone ('America/Los_Angeles');
+      const missionDate = moment.tz(mission.mission_date, timezone);
+      const today = moment();
+      if (missionDate.isSameOrBefore(today)) {
+        style = "a";
+        clickHandler = () => {
+          didAttend ?
+            this.missionsStore.setUserAsAttended(user, true)
+            : this.missionsStore.setUserAsAttended(user, false)
+        }
+      }
+    }
+
     return users.map(user => {
       return (
         <List.Item key={user}>
-          <Image
-            avatar src='/images/avatar/generic.png'
-            onClick={() => {
-              didAttend ?
-                this.missionsStore.setUserAsAttended(user, true)
-                : this.missionsStore.setUserAsAttended(user, false)
-            }}
-          />
-          <List.Content
-            onClick={() => {
-              didAttend ?
-                this.missionsStore.setUserAsAttended(user, true)
-                : this.missionsStore.setUserAsAttended(user, false)
-            }}
-          >
-            <List.Header>{loadedUsers.find(u => u.id === user).username}</List.Header>
+          <Image avatar src='/images/avatar/generic.png' onClick={clickHandler}/>
+          <List.Content onClick={clickHandler}>
+            <List.Header as={style} >{loadedUsers.find(u => u.id === user).username}</List.Header>
           </List.Content>
         </List.Item>
       );
