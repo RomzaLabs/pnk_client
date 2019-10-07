@@ -9,7 +9,7 @@ class Login extends Component {
   state = { username: "", password: "" };
 
   onLoginClick = () => {
-    authStore.login(this.state.username.toLowerCase(), this.state.password);
+    authStore.login(this.state.username, this.state.password);
   };
 
   renderErrorMessage() {
