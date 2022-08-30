@@ -9,7 +9,7 @@
     "history": "^4.10.1",
     "mobx": "^5.13.1",
     "mobx-react": "^5.4.4",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
     "react-countdown-now": "^2.1.1",
